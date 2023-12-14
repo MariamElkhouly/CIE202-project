@@ -5,12 +5,13 @@
 #include "Paddle.h"
 
 
+
 //Main class that coordinates the game operation
 class game
 {
 	enum MODE	//Game mode
 	{
-		MODE_DSIGN,	//Design mode (startup mode)
+		MODE_DSIGN,	//Desing mode (startup mode)
 		MODE_PLAY	//Playing mode
 	};
 
@@ -25,6 +26,7 @@ class game
 	grid* bricksGrid;
 
 	Paddle* paddle;
+	
 
 public:
 	game();

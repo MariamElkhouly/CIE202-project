@@ -109,7 +109,7 @@
     </ClCompile>
     <ClCompile Include="game.cpp" />
     <ClCompile Include="Bricks.cpp">
-      <Filter>Bricks Classes</Filter>
+      <Filter>Derived Classes\Bricks Classes</Filter>
     </ClCompile>
     <ClCompile Include="drawable.cpp">
       <Filter>Base Classes</Filter>
@@ -121,6 +121,10 @@
     <ClCompile Include="collidable.cpp">
       <Filter>Base Classes</Filter>
     </ClCompile>
+    <ClCompile Include="Ball.cpp">
+      <Filter>Derived Classes\Ball class</Filter>
+    </ClCompile>
+    <ClCompile Include="Paddle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CMUgraphicsLib\auxil.h">
@@ -185,7 +189,7 @@
     </ClInclude>
     <ClInclude Include="game.h" />
     <ClInclude Include="Bricks.h">
-      <Filter>Bricks Classes</Filter>
+      <Filter>Derived Classes\Bricks Classes</Filter>
     </ClInclude>
     <ClInclude Include="drawable.h">
       <Filter>Base Classes</Filter>
@@ -198,6 +202,10 @@
     <ClInclude Include="collidable.h">
       <Filter>Base Classes</Filter>
     </ClInclude>
+    <ClInclude Include="Ball.h">
+      <Filter>Derived Classes\Ball class</Filter>
+    </ClInclude>
+    <ClInclude Include="Paddle.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base Classes">
@@ -209,8 +217,14 @@
     <Filter Include="toolbar and icons">
       <UniqueIdentifier>{5f727420-cd1d-483b-8541-bd342f07e6df}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Bricks Classes">
+    <Filter Include="Derived Classes">
+      <UniqueIdentifier>{b5a18e91-6324-4ce7-8031-6958737d6228}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Derived Classes\Bricks Classes">
       <UniqueIdentifier>{5e150dff-8a89-44f3-b58a-731df9cea925}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Derived Classes\Ball class">
+      <UniqueIdentifier>{11f51aac-b129-435f-97a7-41b044629cf3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

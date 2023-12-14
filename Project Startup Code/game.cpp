@@ -1,12 +1,9 @@
 #include "game.h"
 #include "gameConfig.h"
-#include <chrono>
-#include <string>
-#include <iostream>
-using namespace std;
+
+
 game::game()
 {
-	score = 0;
 	//Initialize playgrond parameters
 	gameMode = MODE_DSIGN;
 
@@ -36,7 +33,6 @@ game::game()
 	//TODO: Add code to create and draw the ball
 	
 	//6- Create and clear the status bar
-	//setStatusBar();
 	clearStatusBar();
 }
 
@@ -61,83 +57,19 @@ window* game::CreateWind(int w, int h, int x, int y) const
 	pW->DrawRectangle(0, 0, w, h);
 	return pW;
 }
-
-
-
+//////////////////////////////////////////////////////////////////////////////////////////
 void game::clearStatusBar() const
 {
 	//Clear Status bar by drawing a filled rectangle
 	pWind->SetPen(config.statusBarColor, 1);
 	pWind->SetBrush(config.statusBarColor);
 	pWind->DrawRectangle(0, config.windHeight - config.statusBarHeight, config.windWidth, config.windHeight);
-	//for the timer
-	pWind->SetPen(INDIANRED, 1);
-	pWind->SetBrush(DARKOLIVEGREEN);
-	pWind->DrawRectangle(config.windWidth-100, config.windHeight - config.statusBarHeight, config.windWidth, config.windHeight);
-	//for the score
-	pWind->SetPen(INDIANRED, 1);
-	pWind->SetBrush(KHAKI);
-	pWind->DrawRectangle(config.windWidth - 200, config.windHeight - config.statusBarHeight, config.windWidth-100, config.windHeight);
-	//for the lives
-	pWind->SetPen(MAGENTA, 1);
-	pWind->SetBrush(MISTYROSE);
-	pWind->DrawRectangle(config.windWidth - 300, config.windHeight - config.statusBarHeight, config.windWidth-200, config.windHeight);
-}
-
-void game::setScore(int a)
-{
-	score = a;
-	//will be filled according to each brick type
-	pWind->SetPen(config.penColor, 50);
-	pWind->SetFont(24, BOLD, BY_NAME, "Arial");
-	pWind->DrawString(config.windWidth - 195, config.windHeight - config.statusBarHeight+10, "Score: ");
-	pWind->DrawInteger(config.windWidth - 130, config.windHeight - config.statusBarHeight + 10, score);
-}
-
-void game::setLives(int b)
-{
-	lives = b;
-	//conditions related to the brick type
-	pWind->SetPen(config.penColor, 50);
-	pWind->SetFont(24, BOLD, BY_NAME, "Arial");
-	pWind->DrawString(config.windWidth - 290, config.windHeight - config.statusBarHeight + 10, "Lives: ");
-	pWind->DrawInteger(config.windWidth - 230, config.windHeight - config.statusBarHeight + 10, lives);
-}
-
-void game::timer()
-{
-	long long hr = 0, min = 0;
-	long long sec;
-	bool y = true;
-	// Start the timer
-	auto start = std::chrono::steady_clock::now();
-	// Game loop
-	while (y) {
-		// Check the elapsed time
-		auto end = std::chrono::steady_clock::now();
-		auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
-		sec=duration;
-		if (sec == 60)
-		{
-			sec = 0;
-			min++;
-			y = false;///stop after 1 min just for testing
-			if (min == 60) {
-				min = 0;
-				hr++;
-			}
-		}
-		pWind->DrawInteger(config.windWidth - 45, config.windHeight - config.statusBarHeight + 10, sec);
-		pWind->DrawInteger(config.windWidth - 90, config.windHeight - config.statusBarHeight + 10, min);
-	}	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
 
-
 void game::printMessage(string msg) const	//Prints a message on status bar
 {
-	
 	clearStatusBar();	//First clear the status bar
 
 	pWind->SetPen(config.penColor, 50);
@@ -187,23 +119,21 @@ grid* game::getGrid() const
 
 
 ////////////////////////////////////////////////////////////////////////
-void game::go()
+void game::go() const
 {
 	//This function reads the position where the user clicks to determine the desired operation
 	int x, y;
 	bool isExit = false;
+
 	//Change the title
 	pWind->ChangeTitle("- - - - - - - - - - Brick Breaker (CIE202-project) - - - - - - - - - -");
-	
 	do
 	{
 		printMessage("Ready...");
-		setScore(8);
-		setLives(3);
-		timer();
 		getMouseClick(x, y);	//Get the coordinates of the user click
 		if (gameMode == MODE_DSIGN)		//Game is in the Desgin mode
 		{
+
 			//[1] If user clicks on the Toolbar
 			if (y >= 0 && y < config.toolBarHeight)
 			{
