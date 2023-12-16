@@ -33,5 +33,13 @@ struct 		//contains all game configurations (MAY be loaded from a configuration 
 	int paddleposx =( windWidth/2)-(paddlew/2);
 	int paddleposy = windHeight - (statusBarHeight+paddleh+padding);
 
-	
+	//Ball config
+
+	int ballr = 20;
+	//int ballx = windWidth / 2;
+	int ballx = paddleposx + (paddlew) / 2;
+	int bally = paddleposy - ballr - 1;
+
+
+
 }config;

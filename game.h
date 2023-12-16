@@ -2,31 +2,35 @@
 #include "CMUgraphicsLib\CMUgraphics.h"
 #include "toolbar.h"
 #include "grid.h"
+#include <chrono>
+#include <string>
+#include "Ball.h"
 #include "Paddle.h"
 
 
-
+//Main class that coordinates the game operation
+enum MODE	//Game mode
+{
+	MODE_DSIGN,	//Desing mode (startup mode)
+	MODE_PLAY	//Playing mode
+};
 //Main class that coordinates the game operation
 class game
 {
-	enum MODE	//Game mode
-	{
-		MODE_DSIGN,	//Desing mode (startup mode)
-		MODE_PLAY	//Playing mode
-	};
-
 	MODE gameMode;
 
 	/// Add more members if needed
-
 
 	
 	window* pWind;	//Pointer to the CMU graphics window
 	toolbar* gameToolbar;
 	grid* bricksGrid;
+	Paddle* ptrPaddle;
+	Ball* pBall; 
+	brick* pBrick;
 
-	Paddle* paddle;
-	
+	int score = 0;
+	int lives;
 
 public:
 	game();
@@ -38,13 +42,17 @@ public:
 
 	window* CreateWind(int, int, int, int) const; //creates the game window
 
-
 	void clearStatusBar() const;	//Clears the status bar
-
-
+	void setScore(int a);
+	int getScore() const;
+	void setLives(int b);
+	int getLives() const;
+	void setMode(MODE a); //changing the mode
+	MODE getMode()const;
+	void timer(); //timer for the play mode
 	void printMessage(string msg) const;	//Print a message on Status bar
-
-	void go() const;
+	void status();
+	void go();
 
 	window* getWind() const;		//returns a pointer to the graphics window
 

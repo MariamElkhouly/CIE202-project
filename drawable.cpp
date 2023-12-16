@@ -21,6 +21,11 @@ void drawable::setImageName(string path)
 	imageName = path;
 }
 
+point drawable::getPosition()
+{
+	return uprLft;
+}
+
 
 
 

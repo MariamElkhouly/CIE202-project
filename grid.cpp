@@ -32,6 +32,20 @@ grid::~grid()
 
 }
 
+void grid::disappear(brick* pBrick)
+{
+	// Find and delete the brick in the brickMatrix
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			if (brickMatrix[i][j] == pBrick) {
+				delete brickMatrix[i][j];
+				brickMatrix[i][j] = nullptr;
+				return;  // Assuming each brick exists only once in the grid
+			}
+		}
+	}
+}
+
 void grid::draw() const
 {
 	window* pWind = pGame->getWind();
@@ -79,7 +93,18 @@ int grid::addBrick(BrickType brkType, point clickedPoint)
 	case BRK_NRM:	//The new brick to add is Normal Brick
 		brickMatrix[gridCellRowIndex][gridCellColIndex] = new normalBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
 		break;
-
+	case BRK_EAS:	
+		brickMatrix[gridCellRowIndex][gridCellColIndex] = new easyBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
+		break;
+	case BRK_HRD:	
+		brickMatrix[gridCellRowIndex][gridCellColIndex] = new hardBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
+		break;
+	case BRK_BMB:	
+		brickMatrix[gridCellRowIndex][gridCellColIndex] = new bombBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
+		break;
+	case BRK_SHK:	
+		brickMatrix[gridCellRowIndex][gridCellColIndex] = new shockwaveBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
+		break;
 		//TODO: 
 		// handle more types
 	}

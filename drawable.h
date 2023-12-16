@@ -18,13 +18,12 @@ protected:
 	string imageName;	//path to its image
     point uprLft;       //upper left corner of the drawable object
     int width, height;  
-
-protected:
     game* pGame;        //pointer to game object
 public:
     drawable(point r_uprleft, int r_width, int r_height, game* r_pGame);
     virtual void draw() const;//for a drwable object to draw itself on the screen
 	void setImageName(string path);
+    point getPosition();
 };
 
 
