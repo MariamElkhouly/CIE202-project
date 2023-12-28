@@ -10,8 +10,9 @@ enum BrickType	//add more brick types
 	BRK_NRM,	//Normal Brick
 	BRK_HRD,		//Hard Brick
 	BRK_BMB, //bombbrick
-	BRK_SHK //shockwave brick
-
+	BRK_SHK, //shockwave brick
+	BRK_RCK, //rock brick
+	BRK_PWR //power brick
 	//TODO: Add more types
 };
 
@@ -70,4 +71,19 @@ public:
 	void collisionAction();
 };
 
+////////////////////////////////////////////////////  class rockBrick  /////////////////////////////////
+class rockBrick :public brick
+{
+public:
+	rockBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
+	void collisionAction();
+};
+
+////////////////////////////////////////////////////  class powerBrick  /////////////////////////////////
+class powerBrick :public brick
+{
+public:
+	powerBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
+	void collisionAction();
+};
 

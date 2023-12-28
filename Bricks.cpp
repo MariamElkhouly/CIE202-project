@@ -21,10 +21,6 @@ void brick::decreaseStrength(Ball& a)
 {
 	if (collisionCheck(*this, a)) {
 		Strength -= 1;
-		if (Strength <= 0) {
-			// Notify the grid to delete this brick
-			// I don't know how
-		}
 	}
 }
 
@@ -90,4 +86,27 @@ shockwaveBrick::shockwaveBrick(point r_uprleft, int r_width, int r_height, game*
 void shockwaveBrick::collisionAction()
 {
 	pGame->setScore(5);
+}
+
+////////////////////////////////////////////////////  class rockBrick  /////////////////////////////////
+rockBrick::rockBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
+	brick(r_uprleft, r_width, r_height, r_pGame)
+{
+	SetStrength(500);
+	imageName = "images\\bricks\\rock.jpg";
+}
+void rockBrick::collisionAction()
+{
+	
+}
+////////////////////////////////////////////////////  class powerBrick  /////////////////////////////////
+powerBrick::powerBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
+	brick(r_uprleft, r_width, r_height, r_pGame)
+{
+	SetStrength(1);
+	imageName = "images\\bricks\\power.jpg";
+}
+void powerBrick::collisionAction()
+{
+
 }

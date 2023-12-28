@@ -105,6 +105,12 @@ int grid::addBrick(BrickType brkType, point clickedPoint)
 	case BRK_SHK:	
 		brickMatrix[gridCellRowIndex][gridCellColIndex] = new shockwaveBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
 		break;
+	case BRK_RCK:
+		brickMatrix[gridCellRowIndex][gridCellColIndex] = new rockBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
+		break;
+	case BRK_PWR:
+		brickMatrix[gridCellRowIndex][gridCellColIndex] = new powerBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
+		break;
 		//TODO: 
 		// handle more types
 	}

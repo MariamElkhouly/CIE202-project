@@ -64,6 +64,30 @@ public:
 	virtual void onClick();
 };
 
+////////////////////////////////////////////////////  class iconAddRockBrick   //////////////////////////////////////////////
+class iconAddRockBrick :public toolbarIcon
+{
+public:
+	iconAddRockBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
+	virtual void onClick();
+};
+
+////////////////////////////////////////////////////  class iconAddPowerBrick   //////////////////////////////////////////////
+class iconAddPowerBrick :public toolbarIcon
+{
+public:
+	iconAddPowerBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
+	virtual void onClick();
+};
+
+////////////////////////////////////////////////////  class iconDelete   //////////////////////////////////////////////
+class iconDelete :public toolbarIcon
+{
+public:
+	iconDelete(point r_uprleft, int r_width, int r_height, game* r_pGame);
+	virtual void onClick();
+};
+
 ////////////////////////////////////////////////////  class iconLoad   //////////////////////////////////////////////
 class iconLoad :public toolbarIcon
 {
@@ -127,6 +151,9 @@ class toolbar:public drawable
 		ICON_ADD_HARD,		//add hard brick
 		ICON_ADD_BOMB,      //add bomb brick
 		ICON_ADD_SHOCK, //add shockwave brick
+		ICON_ADD_ROCK, //add rock brick
+		ICON_ADD_POWER, //add power brick
+		ICON_DELETE, //delete brick from playground
 		ICON_LOAD,		//load
 		ICON_SAVE,		// save
 		ICON_PAUSE,		// pause
