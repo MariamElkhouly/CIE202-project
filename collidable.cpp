@@ -46,6 +46,8 @@ point collidable::maxDistance(collidable& a, collidable& b)
 collidable::collidable(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 	drawable(r_uprleft, r_width, r_height, r_pGame)
 {
+	vel.x = 0;
+	vel.y = 0;
 }
 
 bool collidable::collisionCheck(collidable& a, collidable& b)
@@ -62,7 +64,6 @@ bool collidable::collisionCheck(collidable& a, collidable& b)
 
 Dir collidable::collisionDir(collidable& b)
 {
-	collidable* pb = &b;
 
 	point center_a = this->getCenter(), center_b = b.getCenter();
 	point displacement;

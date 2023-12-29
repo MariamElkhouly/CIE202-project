@@ -10,7 +10,7 @@ class collidable :public drawable
 protected:
     bool isPaddle = false;
     point midOfCollision;
-    
+    point vel;
     static point minDistance(collidable &a, collidable &b);
     static point maxDistance(collidable& a, collidable& b);
 public:
