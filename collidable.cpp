@@ -50,7 +50,7 @@ collidable::collidable(point r_uprleft, int r_width, int r_height, game* r_pGame
 	vel.y = 0;
 }
 
-bool collidable::collisionCheck(collidable& a, collidable& b)
+bool collidable::collisionCheck(const collidable& a, const collidable& b)
 {
 	point minDims = minDistance(a, b);
 
@@ -62,52 +62,31 @@ bool collidable::collisionCheck(collidable& a, collidable& b)
 	}
 }
 
-Dir collidable::collisionDir(collidable& b)
+Dir collidable::collisionDir(const collidable& b)
 {
 
-	point center_a = this->getCenter(), center_b = b.getCenter();
-	point displacement;
-	point maxDims = collidable::maxDistance(*this, b);
-	point minDims = collidable::minDistance(*this, b);
+	point prev_position_center, center_b, displacement;
+	prev_position_center.x = this->getCenter().x - vel.x;
+	prev_position_center.y = this->getCenter().y - vel.y;
+	
+	center_b = b.getCenter();
+	
+	displacement.x = abs(prev_position_center.x - center_b.x);
+	displacement.y = abs(prev_position_center.y - center_b.y);
 
-	displacement.x = abs(center_a.x - center_b.x);
-	displacement.y = abs(center_a.y - center_b.y);
-
-	if (maxDims.x / 2 <= displacement.x + minDims.x / 2 && maxDims.y / 2 > displacement.y + minDims.y / 2) {
-
-		if (this->uprLft.x < b.uprLft.x)
+	if (displacement.y < b.height / 2 + this->height / 2)
+		if (this->vel.x > 0)
 			return RIGHT;
 		else
 			return LEFT;
-	}
-	else
-	{
-		if (this->uprLft.y < b.uprLft.y)
+	else if (displacement.x < b.width / 2 + this->width / 2)
+		if (this->vel.y > 0)
 			return UP;
 		else
 			return DOWN;
-	}
-	return NO;
+
 
 }
-
-
-point collidable::collisionPoint(collidable& b)
-{
-
-	point p = b.uprLft;
-	Dir collDirection = this->collisionDir(b);
-
-	if (collDirection == UP) {
-
-	}
-
-	return p;
-}
-
-
-
-
 
 point collidable::getCenter() const
 {
