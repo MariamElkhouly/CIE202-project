@@ -110,3 +110,8 @@ int grid::addBrick(BrickType brkType, point clickedPoint)
 	}
 	return 1;
 }
+
+brick* grid::getBrick(int row, int column)
+{
+	return brickMatrix[row][column];
+}
