@@ -50,7 +50,7 @@ collidable::collidable(point r_uprleft, int r_width, int r_height, game* r_pGame
 	vel.y = 0;
 }
 
-bool collidable::collisionCheck(const collidable& a, const collidable& b)
+bool collidable::collisionCheck(collidable& a, collidable& b)
 {
 	point minDims = minDistance(a, b);
 
@@ -62,7 +62,7 @@ bool collidable::collisionCheck(const collidable& a, const collidable& b)
 	}
 }
 
-Dir collidable::collisionDir(const collidable& b)
+Dir collidable::collisionDir(collidable& b)
 {
 
 	point prev_position_center, center_b, displacement;
