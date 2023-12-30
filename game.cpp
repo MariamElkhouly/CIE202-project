@@ -294,6 +294,7 @@ void game::go()
 			if (pBall->collisionCheck(*pBall, *ptrPaddle))
 				pBall->reflectOffPaddle(*ptrPaddle);
 
+
 			pWind->GetMouseClick(x, y);
 			ptrPaddle->MovePaddle();
 			ptrPaddle->draw();
@@ -302,11 +303,16 @@ void game::go()
 			{
 				isExit = gameToolbar->handleClick(x, y);
 			}
+
 			if (y >= 0 && y < config.toolBarHeight) {
 				ptrPaddle->MovePaddle();
 				ptrPaddle->draw();
-				if (pBrick->getStrength() == 0)
-					bricksGrid->disappear(pBrick); //to make the brick disappear if the brick's strength is 0	
+				if (pBall->collisionCheck(*pBrick, *pBall)) {
+					pBall->reflectOffBrick(*pBrick);
+					if (pBrick->getStrength() == 0)
+						bricksGrid->disappear(pBrick); //to make the brick disappear if the brick's strength is 0	
+					// Handle other actions related to the brick (e.g., decrease strength, etc.)
+				}
 			}
 			
 		}

@@ -116,3 +116,23 @@ int grid::addBrick(BrickType brkType, point clickedPoint)
 	}
 	return 1;
 }
+
+void grid::removeBrick(point Clicked)
+{
+	int gridCellRowIndex = (Clicked.y - uprLft.y) / config.brickHeight;
+    int gridCellColIndex = Clicked.x / config.brickWidth;
+	point newBrickUpleft; 
+	newBrickUpleft.x = uprLft.x + gridCellColIndex * config.brickWidth; 
+	newBrickUpleft.y = uprLft.y + gridCellRowIndex * config.brickHeight; 
+    if (gridCellRowIndex >= 0 && gridCellRowIndex < rows &&
+        gridCellColIndex >= 0 && gridCellColIndex < cols &&
+        brickMatrix[gridCellRowIndex][gridCellColIndex]) {
+        delete brickMatrix[gridCellRowIndex][gridCellColIndex];
+        brickMatrix[gridCellRowIndex][gridCellColIndex] = nullptr;
+		window* pWind = pGame->getWind();
+		pWind->SetPen(config.gridLinesColor, 1); 
+		pWind->SetBrush(LAVENDER);
+		pWind->DrawRectangle(newBrickUpleft.x, newBrickUpleft.y, newBrickUpleft.x +config.brickWidth, newBrickUpleft.y+config.brickHeight,FILLED,1,1);
+    }
+}
+

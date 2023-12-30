@@ -16,5 +16,6 @@ public:
 	void disappear(brick* pBrick);
 	void draw() const;
 	int addBrick(BrickType brkType, point clickedPoint);
+	void removeBrick(point Clicked);
 };
 

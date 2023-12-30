@@ -206,6 +206,21 @@ iconDelete::iconDelete(point r_uprleft, int r_width, int r_height, game* r_pGame
 void iconDelete::onClick()
 {
 	if (pGame->getMode() == MODE_DSIGN) {
+		pGame->printMessage("Click on the bricks you want to delete ==> Right-Click to stop <==");
+		int x, y;
+		clicktype t = pGame->getMouseClick(x, y);
+		while (t == LEFT_CLICK)
+		{
+			point clicked;
+			clicked.x = x;
+			clicked.y = y;
+			grid* pGrid = pGame->getGrid();
+			pGrid->removeBrick(clicked);
+			
+
+			t = pGame->getMouseClick(x, y);
+		}
+		pGame->printMessage("");
 	}
 
 }
