@@ -254,19 +254,20 @@ void game::go()
 	int x, y;
 	bool isExit = false;
 	bool isPlay = false;
+	bool isSpacePressed = false; // Flag to track spacebar press
 	//Change the title
 	pWind->ChangeTitle("- - - - - - - - - - Brick Breaker (CIE202-project) - - - - - - - - - -");
 	pBall->setPosition(config.ballx, config.bally - 50);
 	pBall->setVelocity(0, -10);
 	do
 	{
-	
+
 		/*ptrPaddle->MovePaddle();
 		ptrPaddle->draw(); */
 		if (gameMode == MODE_DSIGN)
 		{
 			printMessage("Ready...");
-		
+
 		}
 		//getMouseClick(x, y);	//Get the coordinates of the user click
 
@@ -275,16 +276,16 @@ void game::go()
 
 			printMessage("Ready...");
 			getMouseClick(x, y);	//Get the coordinates of the user click
-			
+
 			//[1] If user clicks on the Toolbar
 			if (y >= 0 && y < config.toolBarHeight)
 			{
-				isExit=gameToolbar->handleClick(x, y);
+				isExit = gameToolbar->handleClick(x, y);
 			}
-		
+
 		}
-		else if(gameMode == MODE_PLAY) {
-			
+		else if (gameMode == MODE_PLAY) {
+
 			status();
 
 
@@ -294,23 +295,47 @@ void game::go()
 			if (pBall->collisionCheck(*pBall, *ptrPaddle))
 				pBall->reflectOffPaddle(*ptrPaddle);
 
-			pWind->GetMouseClick(x, y);
-			ptrPaddle->MovePaddle();
-			ptrPaddle->draw();
-			
-			if (y >= 0 && y < config.toolBarHeight)
-			{
-				isExit = gameToolbar->handleClick(x, y);
+			char cKeyData = ' ';
+
+			if (pWind->GetKeyPress(cKeyData)) {
+				if (cKeyData == ' ') { // Check for spacebar press (ASCII value 32)
+					isSpacePressed = true;
+				}
 			}
-			if (y >= 0 && y < config.toolBarHeight) {
+
+			if (isSpacePressed) {
+				pWind->GetMouseClick(x, y);
 				ptrPaddle->MovePaddle();
 				ptrPaddle->draw();
-				if (pBrick->getStrength() == 0)
-					bricksGrid->disappear(pBrick); //to make the brick disappear if the brick's strength is 0	
-			}
+
+				pBall->move();
+				pBall->draw();
+
+				/* if (pBall->collisionCheck(*pBall, *ptrPaddle))
+					pBall->reflectOffPaddle(*ptrPaddle);*/
+
 			
+			}
+
+			
+		
 		}
-		
-		
+		// Check if ball crosses the bottom
+		if (pBall->getPosition().y >= config.windHeight - config.statusBarHeight) {
+			// Lose a life
+			setLives(getLives() - 1);
+
+			// If no more lives, end the game
+			if (getLives() <= 0) {
+
+				printMessage("Game Over! Final Score: " + to_string(getScore()));
+				break; // Exit the game loop
+			}
+
+			if (y >= 0 && y < config.toolBarHeight) {
+				isExit = gameToolbar->handleClick(x, y);
+			}
+		}
+
 	} while (!isExit);
 }
