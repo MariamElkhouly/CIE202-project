@@ -254,6 +254,7 @@ void game::go()
 	int x, y;
 	bool isExit = false;
 	bool isPlay = false;
+	brick* currentBrick;
 	//Change the title
 	pWind->ChangeTitle("- - - - - - - - - - Brick Breaker (CIE202-project) - - - - - - - - - -");
 	pBall->setPosition(config.ballx, config.bally - 50);
@@ -290,6 +291,17 @@ void game::go()
 
 			pBall->move();
 			pBall->draw();
+
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 20; j++) {
+					currentBrick = bricksGrid->getBrick(i, j);
+					if ( currentBrick && collidable::collisionCheck(*pBall, *currentBrick) ) {
+						pBall->Reflect(*currentBrick);
+						cout << Dir(pBall->collisionDir(*currentBrick)) << endl;
+					}
+				}
+			}
+
 
 			if (pBall->collisionCheck(*pBall, *ptrPaddle))
 				pBall->reflectOffPaddle(*ptrPaddle);
