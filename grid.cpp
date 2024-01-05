@@ -1,6 +1,8 @@
 #include "grid.h"
 #include "game.h"
 #include "gameConfig.h"
+#include <fstream>
+#include <sstream>
 
 grid::grid(point r_uprleft, int wdth, int hght, game* pG):
 	drawable(r_uprleft, wdth, hght, pG)
@@ -105,13 +107,96 @@ int grid::addBrick(BrickType brkType, point clickedPoint)
 	case BRK_SHK:	
 		brickMatrix[gridCellRowIndex][gridCellColIndex] = new shockwaveBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
 		break;
+	case BRK_RCK:
+		brickMatrix[gridCellRowIndex][gridCellColIndex] = new rockBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
+		break;
+	case BRK_PWR:
+		brickMatrix[gridCellRowIndex][gridCellColIndex] = new powerBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
+		break;
 		//TODO: 
 		// handle more types
 	}
 	return 1;
 }
 
+<<<<<<< HEAD
 brick* grid::getBrick(int row, int column)
 {
 	return brickMatrix[row][column];
 }
+=======
+void grid::removeBrick(point Clicked)
+{
+	int gridCellRowIndex = (Clicked.y - uprLft.y) / config.brickHeight;
+    int gridCellColIndex = Clicked.x / config.brickWidth;
+	point newBrickUpleft; 
+	newBrickUpleft.x = uprLft.x + gridCellColIndex * config.brickWidth; 
+	newBrickUpleft.y = uprLft.y + gridCellRowIndex * config.brickHeight; 
+    if (gridCellRowIndex >= 0 && gridCellRowIndex < rows &&
+        gridCellColIndex >= 0 && gridCellColIndex < cols &&
+        brickMatrix[gridCellRowIndex][gridCellColIndex]) {
+        delete brickMatrix[gridCellRowIndex][gridCellColIndex];
+        brickMatrix[gridCellRowIndex][gridCellColIndex] = nullptr;
+		window* pWind = pGame->getWind();
+		pWind->SetPen(config.gridLinesColor, 1); 
+		pWind->SetBrush(LAVENDER);
+		pWind->DrawRectangle(newBrickUpleft.x, newBrickUpleft.y, newBrickUpleft.x +config.brickWidth, newBrickUpleft.y+config.brickHeight,FILLED,1,1);
+    }
+}
+
+void grid::saveGame(const string& filename) const
+{
+	fstream file("file.txt",ios::out);
+
+	// Iterate through bricks and save relevant data to the file
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			if (brickMatrix[i][j]) {
+				// Save data for each brick in a comma-separated format
+				file << i << "," << j << "," << brickMatrix[i][j]->getType() << "\n";
+			}
+		}
+	}
+
+	file.close();
+}
+
+void grid::loadGame(const string& filename)
+{
+	fstream file("file.txt",ios::in);
+	string line; //contains the comma separated values
+
+	// Clear existing bricks
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			if (brickMatrix[i][j]) {
+				delete brickMatrix[i][j];
+				brickMatrix[i][j] = nullptr;
+			}
+		}
+	}
+
+	while (getline(file, line)) {
+		istringstream iss(line); //istringstream will treat line as an input string, and iss is line cin
+		int row, col;
+		int brickType;
+
+		// Parse the comma-separated values
+		if (!(iss >> row >> col >> brickType)) {
+			// Handle parsing error
+			continue;
+		}
+
+		BrickType brkType = static_cast<BrickType>(brickType); //convert integer to BrickType
+		point brickPosition;
+		brickPosition.x = col * config.brickWidth;
+		brickPosition.y = row * config.brickHeight;
+		addBrick(brkType, brickPosition);
+	}
+
+	file.close();
+
+
+}
+
+>>>>>>> Mariem's
