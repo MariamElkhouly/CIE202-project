@@ -4,8 +4,9 @@
 #include "gameConfig.h"
 #include <ctime>
 #include <iostream>
+#include <fstream>
 
-
+fstream file("file.txt", ios::out |ios::in);
 
 ////////////////////////////////////////////////////  class toolbarIcon   ////////////////////////////////////////////////////
 toolbarIcon::toolbarIcon(point r_uprleft, int r_width, int r_height, game* r_pGame):
@@ -233,7 +234,13 @@ iconLoad::iconLoad(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 void iconLoad::onClick()
 {
 	if (pGame->getMode() == MODE_PLAY) {
+		grid* pGrid = pGame->getGrid(); 
+		if (pGrid) {
+			pGrid->loadGame("file.txt"); 
+		}
+
 	}
+
 
 }
 //
@@ -244,7 +251,11 @@ iconSave::iconSave(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 
 void iconSave::onClick()
 {
-	if (pGame->getMode() == MODE_DSIGN) {
+	if (pGame->getMode() == MODE_DSIGN) { 
+		grid* pGrid = pGame->getGrid();
+		if (pGrid) {
+			pGrid->saveGame("file.txt");
+		}
 	}
 
 }

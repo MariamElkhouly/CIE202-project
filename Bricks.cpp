@@ -39,6 +39,11 @@ void normalBrick::collisionAction()
 	pGame->setScore(1);
 }
 
+BrickType normalBrick::getType() const
+{
+	return BRK_NRM;
+}
+
 ////////////////////////////////////////////////////  class easyBrick  /////////////////////////////////
 easyBrick::easyBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 	brick(r_uprleft, r_width, r_height, r_pGame)
@@ -50,6 +55,11 @@ easyBrick::easyBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) 
 void easyBrick::collisionAction()
 {
 	pGame->setScore(1);
+}
+
+BrickType easyBrick::getType() const
+{
+	return BRK_EAS;
 }
 
 ////////////////////////////////////////////////////  class hardBrick  /////////////////////////////////
@@ -64,6 +74,11 @@ void hardBrick::collisionAction()
 	pGame->setScore(1);
 }
 
+BrickType hardBrick::getType() const
+{
+	return BRK_HRD;
+}
+
 ////////////////////////////////////////////////////  class bombBrick  /////////////////////////////////
 bombBrick::bombBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 	brick(r_uprleft, r_width, r_height, r_pGame)
@@ -74,6 +89,11 @@ bombBrick::bombBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) 
 void bombBrick::collisionAction()
 {
 	pGame->setScore(4);
+}
+
+BrickType bombBrick::getType() const
+{
+	return BRK_BMB;
 }
 
 ////////////////////////////////////////////////////  class shockwaveBrick  /////////////////////////////////
@@ -88,6 +108,11 @@ void shockwaveBrick::collisionAction()
 	pGame->setScore(5);
 }
 
+BrickType shockwaveBrick::getType() const
+{
+	return BRK_SHK;
+}
+
 ////////////////////////////////////////////////////  class rockBrick  /////////////////////////////////
 rockBrick::rockBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 	brick(r_uprleft, r_width, r_height, r_pGame)
@@ -99,6 +124,10 @@ void rockBrick::collisionAction()
 {
 	
 }
+BrickType rockBrick::getType() const
+{
+	return BRK_RCK;
+}
 ////////////////////////////////////////////////////  class powerBrick  /////////////////////////////////
 powerBrick::powerBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 	brick(r_uprleft, r_width, r_height, r_pGame)
@@ -109,4 +138,9 @@ powerBrick::powerBrick(point r_uprleft, int r_width, int r_height, game* r_pGame
 void powerBrick::collisionAction()
 {
 
+}
+
+BrickType powerBrick::getType() const
+{
+	return BRK_PWR;
 }

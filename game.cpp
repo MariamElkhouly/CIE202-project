@@ -142,31 +142,28 @@ void game::timer()
 {
 	int hr = 0, min = 0;
 	int sec = 0;
-	bool y = true;
 	// Start the timer
 	auto start = std::chrono::steady_clock::now();
 	// Game loop
-	//while (y) {
-	//	// Check the elapsed time
-	//	auto end = std::chrono::steady_clock::now();
-	//	auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
-	//	sec=duration;
-	//	if (sec == 60)
-	//	{
-	//		sec = 0;
-	//		min++;
-	//		y = false;///stop after 1 min just for testing
-	//		if (min == 60) {
-	//			min = 0;
-	//			hr++;
-	//		}
-	//	} this is a failed trial to display the accurate time 
-	pWind->SetPen(config.penColor, 1);
-	pWind->SetBrush(DARKOLIVEGREEN);
-	pWind->DrawRectangle(config.windWidth - config.windWidth * 0.1, config.windHeight - config.statusBarHeight, config.windWidth, config.windHeight);
-	pWind->DrawInteger(config.windWidth - config.windWidth * 0.045, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, sec);
-	pWind->DrawString(config.windWidth - config.windWidth * 0.07, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, " : ");
-	pWind->DrawInteger(config.windWidth - config.windWidth * 0.08, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, min);
+		// Check the elapsed time
+		auto end = std::chrono::steady_clock::now();
+		auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
+		sec = duration;
+		if (sec == 60)
+		{
+			sec = 0;
+			min++;
+			if (min == 60) {
+				min = 0;
+				hr++;
+			}
+		} 
+		pWind->SetPen(config.penColor, 1);
+		pWind->SetBrush(DARKOLIVEGREEN);
+		pWind->DrawRectangle(config.windWidth - config.windWidth * 0.1, config.windHeight - config.statusBarHeight, config.windWidth, config.windHeight);
+		pWind->DrawInteger(config.windWidth - config.windWidth * 0.045, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, sec);
+		pWind->DrawString(config.windWidth - config.windWidth * 0.07, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, " : ");
+		pWind->DrawInteger(config.windWidth - config.windWidth * 0.08, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, min);
 
 }
 
@@ -260,15 +257,6 @@ void game::go()
 	pBall->setVelocity(0, -10);
 	do
 	{
-	
-		/*ptrPaddle->MovePaddle();
-		ptrPaddle->draw(); */
-		if (gameMode == MODE_DSIGN)
-		{
-			printMessage("Ready...");
-		
-		}
-		//getMouseClick(x, y);	//Get the coordinates of the user click
 
 		if (gameMode == MODE_DSIGN)		//Game is in the Desgin mode
 		{
