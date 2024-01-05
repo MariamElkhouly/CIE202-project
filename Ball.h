@@ -9,7 +9,6 @@ class Ball :
 private:
     image background;
     float diameter;
-    point vel; //velocity vector
     bool collidedWithPaddle = false;
     void checkEdges();
 
