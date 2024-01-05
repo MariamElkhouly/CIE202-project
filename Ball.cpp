@@ -75,6 +75,19 @@ void Ball::reflectOffPaddle(Paddle& paddle)
 
 }
 
+void Ball::reflectOffBrick(brick& brk)
+{
+    double speed = sqrt(pow(vel.x, 2) + pow(vel.y, 2));
+    if (brk.collisionDir(*this) == DOWN)
+        this->setVelocity(-vel.x, vel.y);
+    else if (brk.collisionDir(*this) == UP)
+        this->setVelocity(-vel.x, vel.y);
+    else if (brk.collisionDir(*this) == RIGHT)
+        this->setVelocity(vel.x, -vel.y);
+    else
+            this->setVelocity(vel.x,-vel.y);
+}
+
 void Ball::draw() const
 {
     window* pWind = pGame->getWind();
