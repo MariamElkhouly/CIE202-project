@@ -64,8 +64,8 @@ bool collidable::collisionCheck(collidable& a, collidable& b)
 
 Dir collidable::collisionDir(collidable& b)
 {
-
 	point prev_position_center, center_b, displacement;
+
 	prev_position_center.x = this->getCenter().x - vel.x;
 	prev_position_center.y = this->getCenter().y - vel.y;
 	
@@ -74,17 +74,48 @@ Dir collidable::collisionDir(collidable& b)
 	displacement.x = abs(prev_position_center.x - center_b.x);
 	displacement.y = abs(prev_position_center.y - center_b.y);
 
-	if (displacement.y < b.height / 2 + this->height / 2)
+	while (displacement.x < (b.width + this->width) / 2 && displacement.y < (b.height + this->height) / 2) {
+		prev_position_center.x -= vel.x;
+		prev_position_center.y -= vel.y;
+		displacement.x = abs(prev_position_center.x - center_b.x);
+		displacement.y = abs(prev_position_center.y - center_b.y);
+	}
+
+
+	if (displacement.y < (b.height + this->height) / 2 ){ // && displacement.x >= (b.width / 2 + this->width / 2) ) {
 		if (this->vel.x > 0)
 			return RIGHT;
-		else
+		else if (this->vel.x <= 0)
 			return LEFT;
-	else if (displacement.x < b.width / 2 + this->width / 2)
+	}
+	else if (displacement.x < (b.width + this->width) / 2 ){ // && displacement.y >= b.height / 2 + this->height / 2) {
 		if (this->vel.y > 0)
 			return UP;
-		else
+		else if (this->vel.y <= 0)
 			return DOWN;
+	}
+	return NO;
+}
 
+void collidable::Reflect(collidable &b)
+{
+	Dir direction = collisionDir(b);
+	if (direction == RIGHT) {
+		vel.x *= -1;
+		uprLft.x = b.uprLft.x + b.width + 5;
+	}
+	else if (direction == LEFT) {
+		vel.x *= -1;
+		uprLft.x = b.uprLft.x - this->width - 5;
+	}
+	else if (direction == UP) {
+		vel.y *= -1;
+		uprLft.y = b.uprLft.y - this->height - 5;
+	}
+	else if (direction == DOWN) {
+		vel.y *= -1;
+		uprLft.y = b.uprLft.y + b.height + 5;
+	}
 
 }
 

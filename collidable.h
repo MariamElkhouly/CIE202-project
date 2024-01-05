@@ -4,7 +4,7 @@
 ///////////////////////////////////////   collidable classes   /////////////////////////////////
 //Base class for all collidable (objects that may collide with other objects)
 
-enum Dir {UP, DOWN, RIGHT, LEFT};
+enum Dir {NO, UP, DOWN, RIGHT, LEFT};
 class collidable :public drawable
 {
 protected:
@@ -18,6 +18,6 @@ public:
     point getCenter() const;
     static bool collisionCheck(collidable &a, collidable &b);
     Dir collisionDir(collidable &b);
+    void Reflect(collidable &b);
     virtual void collisionAction() = 0;   //action that should be performed upon collision
 };
-
