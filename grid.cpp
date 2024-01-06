@@ -148,6 +148,8 @@ brick* grid::getBrick(int row, int column)
 	return brickMatrix[row][column];
 }
 
+
+
 void grid::removeBrick(point Clicked)
 {
 	int gridCellRowIndex = (Clicked.y - uprLft.y) / config.brickHeight;
