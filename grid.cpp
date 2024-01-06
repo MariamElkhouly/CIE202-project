@@ -142,20 +142,13 @@ int grid::addBrick(BrickType brkType, point clickedPoint)
 	return 1;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> f1520ef4778dde4386cd321b5458dc0c85dd3c28
 brick* grid::getBrick(int row, int column)
 {
 	return brickMatrix[row][column];
 }
-<<<<<<< HEAD
-=======
-=======
 
->>>>>>> f1520ef4778dde4386cd321b5458dc0c85dd3c28
+
 void grid::removeBrick(point Clicked)
 {
 	int gridCellRowIndex = (Clicked.y - uprLft.y) / config.brickHeight;
@@ -230,8 +223,3 @@ void grid::loadGame(const string& filename)
 
 
 }
-
-<<<<<<< HEAD
->>>>>>> Mariem's
-=======
->>>>>>> f1520ef4778dde4386cd321b5458dc0c85dd3c28
