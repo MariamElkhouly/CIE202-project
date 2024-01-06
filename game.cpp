@@ -21,7 +21,7 @@ game::game()
 	toolbarUpperleft.x = 0;
 	toolbarUpperleft.y = 0;
 
-	gameToolbar = new toolbar(toolbarUpperleft,0,config.toolBarHeight, this);
+	gameToolbar = new toolbar(toolbarUpperleft, 0, config.toolBarHeight, this);
 	gameToolbar->draw();
 
 	//3 - create and draw the grid
@@ -30,7 +30,7 @@ game::game()
 	gridUpperleft.y = config.toolBarHeight;
 	bricksGrid = new grid(gridUpperleft, config.windWidth, config.gridHeight, this);
 	bricksGrid->draw();
-	
+
 	//4- Create the Paddle
 	//TODO: Add code to create and draw the paddle
 	point p;
@@ -46,7 +46,7 @@ game::game()
 		// Move the object based on keyboard input
 	//ptrPaddle ->MovePaddle(); // Adjust the moveStep value to control the movement speed
 		//ptrPaddle->draw();
-		
+
 	//}
 
 	//5- Create the ball
@@ -56,7 +56,7 @@ game::game()
 
 	pBall = new Ball(b, config.ballr, this);
 	pBall->draw();
-	
+
 	//6- Create and clear the status bar
 	//setStatusBar();
 	clearStatusBar();
@@ -94,7 +94,7 @@ void game::clearStatusBar() const
 	pWind->SetPen(config.statusBarColor, 1);
 	pWind->SetBrush(config.statusBarColor);
 	pWind->DrawRectangle(0, config.windHeight - config.statusBarHeight, config.windWidth, config.windHeight);
-	}
+}
 
 void game::setScore(int a)
 {
@@ -128,7 +128,7 @@ int game::getLives() const
 
 void game::setMode(MODE a)
 {
-	gameMode = a; 
+	gameMode = a;
 }
 
 MODE game::getMode() const
@@ -144,26 +144,25 @@ void game::timer()
 	int sec = 0;
 	// Start the timer
 	auto start = std::chrono::steady_clock::now();
-	// Game loop
 		// Check the elapsed time
-		auto end = std::chrono::steady_clock::now();
-		auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
-		sec = duration;
-		if (sec == 60)
-		{
-			sec = 0;
-			min++;
-			if (min == 60) {
-				min = 0;
-				hr++;
-			}
-		} 
-		pWind->SetPen(config.penColor, 1);
-		pWind->SetBrush(DARKOLIVEGREEN);
-		pWind->DrawRectangle(config.windWidth - config.windWidth * 0.1, config.windHeight - config.statusBarHeight, config.windWidth, config.windHeight);
-		pWind->DrawInteger(config.windWidth - config.windWidth * 0.045, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, sec);
-		pWind->DrawString(config.windWidth - config.windWidth * 0.07, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, " : ");
-		pWind->DrawInteger(config.windWidth - config.windWidth * 0.08, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, min);
+	auto end = std::chrono::steady_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
+	sec = duration;
+	if (sec == 60)
+	{
+		sec = 0;
+		min++;
+		if (min == 60) {
+			min = 0;
+			hr++;
+		}
+	}
+	pWind->SetPen(config.penColor, 1);
+	pWind->SetBrush(DARKOLIVEGREEN);
+	pWind->DrawRectangle(config.windWidth - config.windWidth * 0.1, config.windHeight - config.statusBarHeight, config.windWidth, config.windHeight);
+	pWind->DrawInteger(config.windWidth - config.windWidth * 0.045, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, sec);
+	pWind->DrawString(config.windWidth - config.windWidth * 0.07, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, " : ");
+	pWind->DrawInteger(config.windWidth - config.windWidth * 0.08, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, min);
 
 }
 
@@ -172,7 +171,7 @@ void game::timer()
 
 void game::printMessage(string msg) const	//Prints a message on status bar
 {
-	
+
 	clearStatusBar();	//First clear the status bar
 
 	pWind->SetPen(config.penColor, 50);
@@ -263,30 +262,31 @@ void game::go()
 
 			printMessage("Ready...");
 			getMouseClick(x, y);	//Get the coordinates of the user click
-			
+
 			//[1] If user clicks on the Toolbar
 			if (y >= 0 && y < config.toolBarHeight)
 			{
-				isExit=gameToolbar->handleClick(x, y);
+				isExit = gameToolbar->handleClick(x, y);
 			}
-		
+
 		}
-		else if(gameMode == MODE_PLAY) {
-			
+		else if (gameMode == MODE_PLAY) {
+
 			status();
 
 			bricksGrid->removeGrid();
 			pBall->move();
 			pBall->draw();
 
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i <= 10; i++) {
 				for (int j = 0; j < 20; j++) {
 					pBrick = bricksGrid->getBrick(i, j);
-					if ( pBrick && collidable::collisionCheck(*pBall, *pBrick) ) {
+					if (pBrick && collidable::collisionCheck(*pBall, *pBrick)) {
 						pBall->Reflect(*pBrick);
 						pBrick->decreaseStrength(*pBall); // Decrease the strength of the brick
-						if(pBrick->getStrength()==0)
-						bricksGrid->disappear(pBrick); //to make the brick disappear if the brick's strength is 0	
+						if (pBrick->getStrength() == 0) {
+							bricksGrid->disappear(pBrick);
+						}
 					}
 				}
 			}
@@ -299,7 +299,7 @@ void game::go()
 			pWind->GetMouseClick(x, y);
 			ptrPaddle->MovePaddle();
 			ptrPaddle->draw();
-			
+
 			if (y >= 0 && y < config.toolBarHeight)
 			{
 				isExit = gameToolbar->handleClick(x, y);
@@ -309,9 +309,9 @@ void game::go()
 				ptrPaddle->MovePaddle();
 				ptrPaddle->draw();
 			}
-			
+
 		}
-		
-		
+
+
 	} while (!isExit);
 }

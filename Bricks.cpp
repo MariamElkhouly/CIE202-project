@@ -24,9 +24,6 @@ void brick::decreaseStrength(Ball& a)
 		// Call the collision action for the specific brick type
 		collisionAction();
 	}
-	if (Strength == 0) {
-		pGame->getGrid()->disappear(this); // Disappear the brick
-	}
 }
 
 
@@ -113,8 +110,9 @@ bombBrick::bombBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) 
 }
 void bombBrick::collisionAction()
 {
-	if (getStrength() == 0)
-	pGame->setScore(4);
+	if (getStrength() == 0) {
+		pGame->setScore(4);
+	}
 }
 
 void bombBrick::decreaseStrength(Ball& a)
@@ -181,9 +179,6 @@ powerBrick::powerBrick(point r_uprleft, int r_width, int r_height, game* r_pGame
 }
 void powerBrick::collisionAction()
 {
-	if (getStrength() == 0)
-		pGame->setScore(5);
-
 }
 
 void powerBrick::decreaseStrength(Ball& a)
