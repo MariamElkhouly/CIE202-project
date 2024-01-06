@@ -17,9 +17,19 @@ public:
 	void draw() const;
 	void removeGrid() const;
 	int addBrick(BrickType brkType, point clickedPoint);
+
+
+	brick* getBrick(int row, int column);
+
+	void removeBrick(point Clicked);
+	void saveGame(const string& filename) const; // Save the game state to a text file
+	void loadGame(const string& filename);// Load the game state from a text file
+
+
 	brick* getBrick(int row, int column);
 	void removeBrick(point Clicked);
 	void saveGame(const string& filename) const; // Save the game state to a text file
 	void loadGame(const string& filename);// Load the game state from a text file
+
 };
 
