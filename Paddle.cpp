@@ -22,12 +22,12 @@ void Paddle::MovePaddle()
             if (cKeyData == 4)
             {
                 erasepaddle();
-                uprLft.x--;
+                uprLft.x-=5;
 
             }
             else if (cKeyData == 6) {
                 erasepaddle();
-                uprLft.x++;
+                uprLft.x+=5;
             }
 
         }
