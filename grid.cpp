@@ -40,6 +40,10 @@ void grid::disappear(brick* pBrick)
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
 			if (brickMatrix[i][j] == pBrick) {
+				window* pWind = pGame->getWind();
+				pWind->SetPen(config.gridLinesColor, 1);
+				pWind->SetBrush(LAVENDER);
+				pWind->DrawRectangle(brickMatrix[i][j]->getPosition().x, brickMatrix[i][j]->getPosition().y, pBrick->getPosition().x + config.brickWidth, pBrick->getPosition().y + config.brickHeight);
 				delete brickMatrix[i][j];
 				brickMatrix[i][j] = nullptr;
 				return;  // Assuming each brick exists only once in the grid
@@ -70,6 +74,25 @@ void grid::draw() const
 			if (brickMatrix[i][j])
 				brickMatrix[i][j]->draw();	//draw exisiting bricks
 
+
+}
+
+void grid::removeGrid() const
+{
+	window* pWind = pGame->getWind();
+	//draw lines showing the grid
+	pWind->SetPen(LAVENDER, 2);
+
+	//draw horizontal lines
+	for (int i = 0; i < rows; i++) {
+		int y = uprLft.y + (i + 1) * config.brickHeight;
+		pWind->DrawLine(0, y, width, y);
+	}
+	//draw vertical lines
+	for (int i = 0; i < cols; i++) {
+		int x = (i + 1) * config.brickWidth;
+		pWind->DrawLine(x, uprLft.y, x, uprLft.y + rows * config.brickHeight);
+	}
 
 }
 
@@ -191,6 +214,7 @@ void grid::loadGame(const string& filename)
 		point brickPosition;
 		brickPosition.x = col * config.brickWidth;
 		brickPosition.y = row * config.brickHeight;
+		draw();
 		addBrick(brkType, brickPosition);
 	}
 

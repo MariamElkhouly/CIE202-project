@@ -237,6 +237,7 @@ void iconLoad::onClick()
 		grid* pGrid = pGame->getGrid(); 
 		if (pGrid) {
 			pGrid->loadGame("file.txt"); 
+			
 		}
 
 	}

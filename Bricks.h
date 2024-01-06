@@ -27,7 +27,7 @@ public:
 	brick(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	void SetStrength(int a); //reduces the strength of the bricks
 	int getStrength() const;
-	void decreaseStrength(Ball& a);
+	virtual void decreaseStrength(Ball& a);
 	virtual BrickType getType() const = 0;  
 };
 
@@ -37,6 +37,7 @@ class easyBrick :public brick
 public:
 	easyBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	void collisionAction();
+	void decreaseStrength(Ball& a) override;
 	BrickType getType() const override;
 };
 
@@ -46,6 +47,7 @@ class normalBrick :public brick
 public:
 	normalBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	void collisionAction();
+	void decreaseStrength(Ball& a) override;
 	BrickType getType() const override;
 };
 
@@ -55,6 +57,7 @@ class hardBrick :public brick
 public:
 	hardBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	void collisionAction();
+	void decreaseStrength(Ball& a) override;
 	BrickType getType() const override;
 };
 
@@ -65,6 +68,7 @@ class bombBrick :public brick
 public:
 	bombBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	void collisionAction();
+	void decreaseStrength(Ball& a) override;
 	BrickType getType() const override;
 };
 
@@ -74,6 +78,7 @@ class shockwaveBrick :public brick
 public:
 	shockwaveBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	void collisionAction();
+	void decreaseStrength(Ball& a) override;
 	BrickType getType() const override;
 };
 
@@ -83,6 +88,7 @@ class rockBrick :public brick
 public:
 	rockBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	void collisionAction();
+	void decreaseStrength(Ball& a) override;
 	BrickType getType() const override;
 };
 
@@ -92,6 +98,7 @@ class powerBrick :public brick
 public:
 	powerBrick(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	void collisionAction();
+	void decreaseStrength(Ball& a) override;
 	BrickType getType() const override;
 };
 
