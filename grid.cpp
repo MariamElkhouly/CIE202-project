@@ -3,7 +3,8 @@
 #include "gameConfig.h"
 #include <fstream>
 #include <sstream>
-
+#include <iostream>
+using namespace std;
 grid::grid(point r_uprleft, int wdth, int hght, game* pG):
 	drawable(r_uprleft, wdth, hght, pG)
 {
@@ -171,25 +172,23 @@ void grid::removeBrick(point Clicked)
 
 void grid::saveGame(const string& filename) const
 {
-	fstream file("file.txt",ios::out);
+	ofstream outfile("file.txt");
 
 	// Iterate through bricks and save relevant data to the file
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
 			if (brickMatrix[i][j]) {
-				// Save data for each brick in a comma-separated format
-				file << i << "," << j << "," << brickMatrix[i][j]->getType() << "\n";
+				outfile << i << " " << j << " " << brickMatrix[i][j]->getType() << "\n";
 			}
 		}
 	}
 
-	file.close();
+	outfile.close();
 }
 
 void grid::loadGame(const string& filename)
 {
-	fstream file("file.txt",ios::in);
-	string line; //contains the comma separated values
+	ifstream infile("file.txt");
 
 	// Clear existing bricks
 	for (int i = 0; i < rows; i++) {
@@ -201,26 +200,21 @@ void grid::loadGame(const string& filename)
 		}
 	}
 
-	while (getline(file, line)) {
-		istringstream iss(line); //istringstream will treat line as an input string, and iss is line cin
+	while (!infile.eof()) {
 		int row, col;
 		int brickType;
 
-		// Parse the comma-separated values
-		if (!(iss >> row >> col >> brickType)) {
-			// Handle parsing error
-			continue;
-		}
+		infile >> row >> col >> brickType;
 
 		BrickType brkType = static_cast<BrickType>(brickType); //convert integer to BrickType
 		point brickPosition;
 		brickPosition.x = col * config.brickWidth;
-		brickPosition.y = row * config.brickHeight;
+		brickPosition.y = (row+2) * config.brickHeight;
 		draw();
 		addBrick(brkType, brickPosition);
 	}
 
-	file.close();
+	infile.close();
 
 
 }
