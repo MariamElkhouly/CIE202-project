@@ -250,12 +250,25 @@ void game::go()
 	int x, y;
 	bool isExit = false;
 	bool isPlay = false;
+	bool isSpacePressed = false; // Flag to track spacebar press
 	//Change the title
 	pWind->ChangeTitle("- - - - - - - - - - Brick Breaker (CIE202-project) - - - - - - - - - -");
 	pBall->setPosition(config.ballx, config.bally - 50);
 	pBall->setVelocity(0, -10);
 	do
 	{
+<<<<<<< HEAD
+
+		/*ptrPaddle->MovePaddle();
+		ptrPaddle->draw(); */
+		if (gameMode == MODE_DSIGN)
+		{
+			printMessage("Ready...");
+
+		}
+		//getMouseClick(x, y);	//Get the coordinates of the user click
+=======
+>>>>>>> master
 
 		if (gameMode == MODE_DSIGN)		//Game is in the Desgin mode
 		{
@@ -267,6 +280,63 @@ void game::go()
 			if (y >= 0 && y < config.toolBarHeight)
 			{
 				isExit = gameToolbar->handleClick(x, y);
+<<<<<<< HEAD
+			}
+
+		}
+		else if (gameMode == MODE_PLAY) {
+
+			status();
+
+
+			pBall->move();
+			pBall->draw();
+
+			if (pBall->collisionCheck(*pBall, *ptrPaddle))
+				pBall->reflectOffPaddle(*ptrPaddle);
+
+			char cKeyData = ' ';
+
+			if (pWind->GetKeyPress(cKeyData)) {
+				if (cKeyData == ' ') { // Check for spacebar press (ASCII value 32)
+					isSpacePressed = true;
+				}
+			}
+
+			if (isSpacePressed) {
+				pWind->GetMouseClick(x, y);
+				ptrPaddle->MovePaddle();
+				ptrPaddle->draw();
+
+				pBall->move();
+				pBall->draw();
+
+				/* if (pBall->collisionCheck(*pBall, *ptrPaddle))
+					pBall->reflectOffPaddle(*ptrPaddle);*/
+
+			
+			}
+
+			
+		
+		}
+		// Check if ball crosses the bottom
+		if (pBall->getPosition().y >= config.windHeight - config.statusBarHeight) {
+			// Lose a life
+			setLives(getLives() - 1);
+
+			// If no more lives, end the game
+			if (getLives() <= 0) {
+
+				printMessage("Game Over! Final Score: " + to_string(getScore()));
+				break; // Exit the game loop
+			}
+
+			if (y >= 0 && y < config.toolBarHeight) {
+				isExit = gameToolbar->handleClick(x, y);
+			}
+		}
+=======
 			}
 
 		}
@@ -312,6 +382,7 @@ void game::go()
 
 		}
 
+>>>>>>> master
 
 	} while (!isExit);
 }
