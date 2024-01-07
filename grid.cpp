@@ -1,7 +1,10 @@
 #include "grid.h"
 #include "game.h"
 #include "gameConfig.h"
-
+#include <fstream>
+#include <sstream>
+#include <iostream>
+using namespace std;
 grid::grid(point r_uprleft, int wdth, int hght, game* pG):
 	drawable(r_uprleft, wdth, hght, pG)
 {
@@ -38,6 +41,10 @@ void grid::disappear(brick* pBrick)
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
 			if (brickMatrix[i][j] == pBrick) {
+				window* pWind = pGame->getWind();
+				pWind->SetPen(config.gridLinesColor, 1);
+				pWind->SetBrush(LAVENDER);
+				pWind->DrawRectangle(brickMatrix[i][j]->getPosition().x, brickMatrix[i][j]->getPosition().y, pBrick->getPosition().x + config.brickWidth, pBrick->getPosition().y + config.brickHeight);
 				delete brickMatrix[i][j];
 				brickMatrix[i][j] = nullptr;
 				return;  // Assuming each brick exists only once in the grid
@@ -68,6 +75,25 @@ void grid::draw() const
 			if (brickMatrix[i][j])
 				brickMatrix[i][j]->draw();	//draw exisiting bricks
 
+
+}
+
+void grid::removeGrid() const
+{
+	window* pWind = pGame->getWind();
+	//draw lines showing the grid
+	pWind->SetPen(LAVENDER, 2);
+
+	//draw horizontal lines
+	for (int i = 0; i < rows; i++) {
+		int y = uprLft.y + (i + 1) * config.brickHeight;
+		pWind->DrawLine(0, y, width, y);
+	}
+	//draw vertical lines
+	for (int i = 0; i < cols; i++) {
+		int x = (i + 1) * config.brickWidth;
+		pWind->DrawLine(x, uprLft.y, x, uprLft.y + rows * config.brickHeight);
+	}
 
 }
 
@@ -105,8 +131,89 @@ int grid::addBrick(BrickType brkType, point clickedPoint)
 	case BRK_SHK:	
 		brickMatrix[gridCellRowIndex][gridCellColIndex] = new shockwaveBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
 		break;
+	case BRK_RCK:
+		brickMatrix[gridCellRowIndex][gridCellColIndex] = new rockBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
+		break;
+	case BRK_PWR:
+		brickMatrix[gridCellRowIndex][gridCellColIndex] = new powerBrick(newBrickUpleft, config.brickWidth, config.brickHeight, pGame);
+		break;
 		//TODO: 
 		// handle more types
 	}
 	return 1;
+}
+
+
+brick* grid::getBrick(int row, int column)
+{
+	return brickMatrix[row][column];
+}
+
+
+void grid::removeBrick(point Clicked)
+{
+	int gridCellRowIndex = (Clicked.y - uprLft.y) / config.brickHeight;
+    int gridCellColIndex = Clicked.x / config.brickWidth;
+	point newBrickUpleft; 
+	newBrickUpleft.x = uprLft.x + gridCellColIndex * config.brickWidth; 
+	newBrickUpleft.y = uprLft.y + gridCellRowIndex * config.brickHeight; 
+    if (gridCellRowIndex >= 0 && gridCellRowIndex < rows &&
+        gridCellColIndex >= 0 && gridCellColIndex < cols &&
+        brickMatrix[gridCellRowIndex][gridCellColIndex]) {
+        delete brickMatrix[gridCellRowIndex][gridCellColIndex];
+        brickMatrix[gridCellRowIndex][gridCellColIndex] = nullptr;
+		window* pWind = pGame->getWind();
+		pWind->SetPen(config.gridLinesColor, 1); 
+		pWind->SetBrush(LAVENDER);
+		pWind->DrawRectangle(newBrickUpleft.x, newBrickUpleft.y, newBrickUpleft.x +config.brickWidth, newBrickUpleft.y+config.brickHeight,FILLED,1,1);
+    }
+}
+
+void grid::saveGame(const string& filename) const
+{
+	ofstream outfile("file.txt");
+
+	// Iterate through bricks and save relevant data to the file
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			if (brickMatrix[i][j]) {
+				outfile << i << " " << j << " " << brickMatrix[i][j]->getType() << "\n";
+			}
+		}
+	}
+
+	outfile.close();
+}
+
+void grid::loadGame(const string& filename)
+{
+	ifstream infile("file.txt");
+
+	// Clear existing bricks
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			if (brickMatrix[i][j]) {
+				delete brickMatrix[i][j];
+				brickMatrix[i][j] = nullptr;
+			}
+		}
+	}
+
+	while (!infile.eof()) {
+		int row, col;
+		int brickType;
+
+		infile >> row >> col >> brickType;
+
+		BrickType brkType = static_cast<BrickType>(brickType); //convert integer to BrickType
+		point brickPosition;
+		brickPosition.x = col * config.brickWidth;
+		brickPosition.y = (row+2) * config.brickHeight;
+		draw();
+		addBrick(brkType, brickPosition);
+	}
+
+	infile.close();
+
+
 }

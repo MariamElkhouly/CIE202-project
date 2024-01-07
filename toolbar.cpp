@@ -4,8 +4,9 @@
 #include "gameConfig.h"
 #include <ctime>
 #include <iostream>
+#include <fstream>
 
-
+fstream file("file.txt", ios::out |ios::in);
 
 ////////////////////////////////////////////////////  class toolbarIcon   ////////////////////////////////////////////////////
 toolbarIcon::toolbarIcon(point r_uprleft, int r_width, int r_height, game* r_pGame):
@@ -148,6 +149,83 @@ void iconAddShockWaveBrick::onClick()
 	}
 }
 
+////////////////////////////////////////////////////  class iconAddRockBrick   //////////////////////////////////////////////
+iconAddRockBrick::iconAddRockBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
+	toolbarIcon(r_uprleft, r_width, r_height, r_pGame)
+{}
+
+void iconAddRockBrick::onClick()
+{
+	if (pGame->getMode() == MODE_DSIGN) {
+		pGame->printMessage("Click on empty cells to add Rock Bricks  ==> Right-Click to stop <==");
+		int x, y;
+		clicktype t = pGame->getMouseClick(x, y);
+		while (t == LEFT_CLICK)
+		{
+			point clicked;
+			clicked.x = x;
+			clicked.y = y;
+			grid* pGrid = pGame->getGrid();
+			pGrid->addBrick(BRK_RCK, clicked);
+			pGrid->draw();
+			t = pGame->getMouseClick(x, y);
+		}
+		pGame->printMessage("");
+	}
+}
+
+////////////////////////////////////////////////////  class iconAddPowerBrick   //////////////////////////////////////////////
+iconAddPowerBrick::iconAddPowerBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
+	toolbarIcon(r_uprleft, r_width, r_height, r_pGame)
+{}
+
+void iconAddPowerBrick::onClick()
+{
+	if (pGame->getMode() == MODE_DSIGN) {
+		pGame->printMessage("Click on empty cells to add Power Bricks  ==> Right-Click to stop <==");
+		int x, y;
+		clicktype t = pGame->getMouseClick(x, y);
+		while (t == LEFT_CLICK)
+		{
+			point clicked;
+			clicked.x = x;
+			clicked.y = y;
+			grid* pGrid = pGame->getGrid();
+			pGrid->addBrick(BRK_PWR, clicked);
+			pGrid->draw();
+			t = pGame->getMouseClick(x, y);
+		}
+		pGame->printMessage("");
+	}
+}
+
+////////////////////////////////////////////////////  class iconDelete //////////////////////////////////////////////
+iconDelete::iconDelete(point r_uprleft, int r_width, int r_height, game* r_pGame) :
+	toolbarIcon(r_uprleft, r_width, r_height, r_pGame)
+{}
+
+void iconDelete::onClick()
+{
+	if (pGame->getMode() == MODE_DSIGN) {
+		pGame->printMessage("Click on the bricks you want to delete ==> Right-Click to stop <==");
+		int x, y;
+		clicktype t = pGame->getMouseClick(x, y);
+		while (t == LEFT_CLICK)
+		{
+			point clicked;
+			clicked.x = x;
+			clicked.y = y;
+			grid* pGrid = pGame->getGrid();
+			pGrid->removeBrick(clicked);
+			
+
+			t = pGame->getMouseClick(x, y);
+		}
+		pGame->printMessage("");
+	}
+
+}
+
 ////////////////////////////////////////////////////  class iconLoad //////////////////////////////////////////////
 iconLoad::iconLoad(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 	toolbarIcon(r_uprleft, r_width, r_height, r_pGame)
@@ -155,8 +233,15 @@ iconLoad::iconLoad(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 
 void iconLoad::onClick()
 {
-	if (pGame->getMode() == MODE_PLAY) {
+	if (pGame->getMode() == MODE_DSIGN) {
+		grid* pGrid = pGame->getGrid(); 
+		if (pGrid) {
+			pGrid->loadGame("file.txt"); 
+			
+		}
+
 	}
+
 
 }
 //
@@ -167,7 +252,11 @@ iconSave::iconSave(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 
 void iconSave::onClick()
 {
-	if (pGame->getMode() == MODE_DSIGN) {
+	if (pGame->getMode() == MODE_DSIGN) { 
+		grid* pGrid = pGame->getGrid();
+		if (pGrid) {
+			pGrid->saveGame("file.txt");
+		}
 	}
 
 }
@@ -237,6 +326,9 @@ toolbar::toolbar(point r_uprleft, int wdth, int hght, game* pG):
 	iconsImages[ICON_ADD_HARD] = "images\\ToolbarIcons\\hard.jpg";
 	iconsImages[ICON_ADD_BOMB] = "images\\ToolbarIcons\\bomb.jpg";
 	iconsImages[ICON_ADD_SHOCK] = "images\\ToolbarIcons\\shockwave.jpg";
+	iconsImages[ICON_ADD_ROCK] = "images\\ToolbarIcons\\rock.jpg";
+	iconsImages[ICON_ADD_POWER] = "images\\ToolbarIcons\\power.jpg";
+	iconsImages[ICON_DELETE] = "images\\ToolbarIcons\\delete.jpg";
 	iconsImages[ICON_LOAD] = "images\\ToolbarIcons\\load.jpg";
 	iconsImages[ICON_SAVE] = "images\\ToolbarIcons\\save.jpg";
 	iconsImages[ICON_PAUSE] = "images\\ToolbarIcons\\pause.jpg";
@@ -263,6 +355,12 @@ toolbar::toolbar(point r_uprleft, int wdth, int hght, game* pG):
 	iconsList[ICON_ADD_BOMB] = new iconAddBombBrick(p, config.iconWidth, height, pGame);
 	p.x += config.iconWidth;
 	iconsList[ICON_ADD_SHOCK] = new iconAddShockWaveBrick(p, config.iconWidth, height, pGame);
+	p.x += config.iconWidth;
+	iconsList[ICON_ADD_ROCK] = new iconAddRockBrick(p, config.iconWidth, height, pGame);
+	p.x += config.iconWidth;
+	iconsList[ICON_ADD_POWER] = new iconAddPowerBrick(p, config.iconWidth, height, pGame);
+	p.x += config.iconWidth;
+	iconsList[ICON_DELETE] = new iconDelete(p, config.iconWidth, height, pGame);
 	p.x += config.iconWidth;
 	iconsList[ICON_LOAD] = new iconLoad(p, config.iconWidth, height, pGame);
 	p.x += config.iconWidth; 

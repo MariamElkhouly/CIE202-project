@@ -19,14 +19,13 @@ int brick::getStrength() const
 
 void brick::decreaseStrength(Ball& a)
 {
-	if (collisionCheck(*this, a)) {
+	if (Strength > 0) {
 		Strength -= 1;
-		if (Strength <= 0) {
-			// Notify the grid to delete this brick
-			// I don't know how
-		}
+		// Call the collision action for the specific brick type
+		collisionAction();
 	}
 }
+
 
 
 
@@ -40,7 +39,18 @@ normalBrick::normalBrick(point r_uprleft, int r_width, int r_height, game* r_pGa
 
 void normalBrick::collisionAction()
 {
+	if (getStrength() == 0)
 	pGame->setScore(1);
+}
+
+void normalBrick::decreaseStrength(Ball& a)
+{
+	brick::decreaseStrength(a);
+}
+
+BrickType normalBrick::getType() const
+{
+	return BRK_NRM;
 }
 
 ////////////////////////////////////////////////////  class easyBrick  /////////////////////////////////
@@ -53,8 +63,20 @@ easyBrick::easyBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) 
 
 void easyBrick::collisionAction()
 {
+	if(getStrength()==0)
 	pGame->setScore(1);
 }
+
+BrickType easyBrick::getType() const
+{
+	return BRK_EAS;
+}
+
+void easyBrick::decreaseStrength(Ball& a)
+{
+	brick::decreaseStrength(a); // Call the base class method
+}
+
 
 ////////////////////////////////////////////////////  class hardBrick  /////////////////////////////////
 hardBrick::hardBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
@@ -65,7 +87,18 @@ hardBrick::hardBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) 
 }
 void hardBrick::collisionAction()
 {
+	if (getStrength() == 0)
 	pGame->setScore(1);
+}
+
+void hardBrick::decreaseStrength(Ball& a)
+{
+	brick::decreaseStrength(a);
+}
+
+BrickType hardBrick::getType() const
+{
+	return BRK_HRD;
 }
 
 ////////////////////////////////////////////////////  class bombBrick  /////////////////////////////////
@@ -77,7 +110,19 @@ bombBrick::bombBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) 
 }
 void bombBrick::collisionAction()
 {
-	pGame->setScore(4);
+	if (getStrength() == 0) {
+		pGame->setScore(4);
+	}
+}
+
+void bombBrick::decreaseStrength(Ball& a)
+{
+	brick::decreaseStrength(a);
+}
+
+BrickType bombBrick::getType() const
+{
+	return BRK_BMB;
 }
 
 ////////////////////////////////////////////////////  class shockwaveBrick  /////////////////////////////////
@@ -89,5 +134,59 @@ shockwaveBrick::shockwaveBrick(point r_uprleft, int r_width, int r_height, game*
 }
 void shockwaveBrick::collisionAction()
 {
+	if (getStrength() == 0)
 	pGame->setScore(5);
+}
+
+void shockwaveBrick::decreaseStrength(Ball& a)
+{
+	brick::decreaseStrength(a);
+}
+
+BrickType shockwaveBrick::getType() const
+{
+	return BRK_SHK;
+}
+
+////////////////////////////////////////////////////  class rockBrick  /////////////////////////////////
+rockBrick::rockBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
+	brick(r_uprleft, r_width, r_height, r_pGame)
+{
+	SetStrength(500);
+	imageName = "images\\bricks\\rock.jpg";
+}
+void rockBrick::collisionAction()
+{
+	if (getStrength() == 0)
+		pGame->setScore(5);
+	
+}
+void rockBrick::decreaseStrength(Ball& a)
+{
+	brick::decreaseStrength(a);
+}
+
+BrickType rockBrick::getType() const
+{
+	return BRK_RCK;
+}
+////////////////////////////////////////////////////  class powerBrick  /////////////////////////////////
+powerBrick::powerBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
+	brick(r_uprleft, r_width, r_height, r_pGame)
+{
+	SetStrength(1);
+	imageName = "images\\bricks\\power.jpg";
+}
+void powerBrick::collisionAction()
+{
+}
+
+void powerBrick::decreaseStrength(Ball& a)
+{
+	brick::decreaseStrength(a);
+}
+
+BrickType powerBrick::getType() const
+{
+	return BRK_PWR;
 }
