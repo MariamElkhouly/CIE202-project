@@ -20,7 +20,6 @@ public:
     void setVelocity(float v_x, float v_y);
     void setPosition(float x, float y);
     void reflectOffPaddle(Paddle& paddle);
-    void reflectOffBrick(brick& brk);
     void draw() const override;
     void clearScreen() const;
     void collisionAction();

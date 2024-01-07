@@ -53,6 +53,7 @@ public:
 	void printMessage(string msg) const;	//Print a message on Status bar
 	void status();
 	void go();
+	void handleBrickCollision();
 
 	window* getWind() const;		//returns a pointer to the graphics window
 

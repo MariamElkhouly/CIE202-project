@@ -251,7 +251,6 @@ void game::go()
 	int x, y;
 	bool isExit = false;
 	bool isPlay = false;
-	brick* currentBrick;
 	//Change the title
 	pWind->ChangeTitle("- - - - - - - - - - Brick Breaker (CIE202-project) - - - - - - - - - -");
 	pBall->setPosition(config.ballx, config.bally - 50);
@@ -276,24 +275,15 @@ void game::go()
 			
 			status();
 
-
 			pBall->move();
 			pBall->draw();
-
-			for (int i = 0; i < 10; i++) {
-				for (int j = 0; j < 20; j++) {
-					currentBrick = bricksGrid->getBrick(i, j);
-					if ( currentBrick && collidable::collisionCheck(*pBall, *currentBrick) ) {
-						pBall->Reflect(*currentBrick);
-						cout << Dir(pBall->collisionDir(*currentBrick)) << endl;
-					}
-				}
-			}
-
+			bricksGrid->refresh();
 
 			if (pBall->collisionCheck(*pBall, *ptrPaddle))
 				pBall->reflectOffPaddle(*ptrPaddle);
 
+			handleBrickCollision();
+			
 
 			pWind->GetMouseClick(x, y);
 			ptrPaddle->MovePaddle();
@@ -308,7 +298,8 @@ void game::go()
 				ptrPaddle->MovePaddle();
 				ptrPaddle->draw();
 				if (pBall->collisionCheck(*pBrick, *pBall)) {
-					pBall->reflectOffBrick(*pBrick);
+					//pBall->reflectOffBrick(*pBrick);
+					//checkAndReflect();
 					if (pBrick->getStrength() == 0)
 						bricksGrid->disappear(pBrick); //to make the brick disappear if the brick's strength is 0	
 					// Handle other actions related to the brick (e.g., decrease strength, etc.)
@@ -319,4 +310,21 @@ void game::go()
 		
 		
 	} while (!isExit);
+}
+
+void game::handleBrickCollision()
+{
+	brick* currentBrick;
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 20; j++) {
+			currentBrick = bricksGrid->getBrick(i, j);
+			if ( currentBrick && collidable::collisionCheck(*pBall, *currentBrick) ) {
+				pBall->clearScreen();
+				pBall->Reflect(*currentBrick);
+				currentBrick->draw();
+				if (currentBrick->getStrength() == 0)
+					bricksGrid->disappear(currentBrick);
+			}
+		}
+	}
 }

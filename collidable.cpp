@@ -82,13 +82,13 @@ Dir collidable::collisionDir(collidable& b)
 	}
 
 
-	if (displacement.y < (b.height + this->height) / 2 ){ // && displacement.x >= (b.width / 2 + this->width / 2) ) {
+	if (displacement.y < (b.height + this->height) / 2 ){ 
 		if (this->vel.x > 0)
 			return RIGHT;
 		else if (this->vel.x <= 0)
 			return LEFT;
 	}
-	else if (displacement.x < (b.width + this->width) / 2 ){ // && displacement.y >= b.height / 2 + this->height / 2) {
+	else if (displacement.x < (b.width + this->width) / 2 ){ 
 		if (this->vel.y > 0)
 			return UP;
 		else if (this->vel.y <= 0)
@@ -102,11 +102,11 @@ void collidable::Reflect(collidable &b)
 	Dir direction = collisionDir(b);
 	if (direction == RIGHT) {
 		vel.x *= -1;
-		uprLft.x = b.uprLft.x + b.width + 5;
+		uprLft.x = b.uprLft.x - this->width - 5;
 	}
 	else if (direction == LEFT) {
 		vel.x *= -1;
-		uprLft.x = b.uprLft.x - this->width - 5;
+		uprLft.x = b.uprLft.x + b.width + 5;
 	}
 	else if (direction == UP) {
 		vel.y *= -1;

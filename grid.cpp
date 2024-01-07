@@ -73,6 +73,18 @@ void grid::draw() const
 
 }
 
+void grid::refresh() const
+{
+	brick* b;
+	for (int i = 0; i < 10; i++) {
+		for (int j = 0; j < 20; j++) {
+			b = this->getBrick(i, j);
+			if (b)
+				b->draw();
+		}
+	}
+}
+
 int grid::addBrick(BrickType brkType, point clickedPoint)
 {
 	//TODO:
@@ -120,7 +132,7 @@ int grid::addBrick(BrickType brkType, point clickedPoint)
 }
 
 
-brick* grid::getBrick(int row, int column)
+brick* grid::getBrick(int row, int column) const
 {
 	return brickMatrix[row][column];
 }

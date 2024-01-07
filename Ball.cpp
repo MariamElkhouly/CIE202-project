@@ -62,7 +62,7 @@ void Ball::setPosition(float x, float y)
 void Ball::reflectOffPaddle(Paddle& paddle)
 {
 
-    double speed = sqrt(pow(vel.x, 2) + pow(vel.y, 2));
+    int speed = 10;
     int distFromCenter = abs(this->getCenter().x - paddle.getCenter().x);
     double ratio = 45.0 / (double(config.paddlew) / 10); //get the width to angle ratio
     //divide by 2 as we are looking only at 1/2 the width on each side.
@@ -73,19 +73,6 @@ void Ball::reflectOffPaddle(Paddle& paddle)
     vel.y = -1 * speed * sin(angle);
     this->setPosition(uprLft.x, paddle.getPosition().y - height - 1);
 
-}
-
-void Ball::reflectOffBrick(brick& brk)
-{
-    double speed = sqrt(pow(vel.x, 2) + pow(vel.y, 2));
-    if (brk.collisionDir(*this) == DOWN)
-        this->setVelocity(-vel.x, vel.y);
-    else if (brk.collisionDir(*this) == UP)
-        this->setVelocity(-vel.x, vel.y);
-    else if (brk.collisionDir(*this) == RIGHT)
-        this->setVelocity(vel.x, -vel.y);
-    else
-            this->setVelocity(vel.x,-vel.y);
 }
 
 void Ball::draw() const
