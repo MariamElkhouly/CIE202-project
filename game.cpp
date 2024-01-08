@@ -294,14 +294,10 @@ void game::go()
 			if (getLives() <= 0) {
 
 				printMessage("Game Over! Final Score: " + to_string(getScore()));
-				//pBall->setPosition(250, 250);
-				//pBall->setVelocity(0, -10);
 			}
 			else
 			{
 				status();
-				
-
 			}
 
 			pBall->move();
@@ -342,13 +338,6 @@ void game::go()
 					}
 				}
 			}
-			/*if (pBall->collisionCheck(*pBall, *ptrPaddle))
-				pBall->reflectOffPaddle(*ptrPaddle);*/
-
-
-			/*pWind->GetMouseClick(x, y);
-			ptrPaddle->MovePaddle();
-			ptrPaddle->draw();*/
 
 			if (y >= 0 && y < config.toolBarHeight)
 			{
@@ -360,12 +349,6 @@ void game::go()
 				ptrPaddle->draw();
 			}
 
-			//if (y >= 0 && y < config.toolBarHeight) {
-			//	ptrPaddle->MovePaddle();
-			//	ptrPaddle->draw();
-			//	if (pBrick->getStrength() == 0)
-			//		bricksGrid->disappear(pBrick); //to make the brick disappear if the brick's strength is 0	
-			//}
 
 			if (pBall->getPosition().y > config.windHeight - config.statusBarHeight) {
 
