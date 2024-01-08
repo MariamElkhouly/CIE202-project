@@ -125,15 +125,6 @@
       <Filter>Derived Classes\Ball class</Filter>
     </ClCompile>
     <ClCompile Include="Paddle.cpp" />
-    <ClCompile Include="collectable.cpp">
-      <Filter>Base Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerUpCollectable.cpp">
-      <Filter>Derived Classes\Collectables</Filter>
-    </ClCompile>
-    <ClCompile Include="PowerDownCollectable.cpp">
-      <Filter>Derived Classes\Collectables</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CMUgraphicsLib\auxil.h">
@@ -215,15 +206,6 @@
       <Filter>Derived Classes\Ball class</Filter>
     </ClInclude>
     <ClInclude Include="Paddle.h" />
-    <ClInclude Include="collectable.h">
-      <Filter>Base Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerUpCollectable.h">
-      <Filter>Derived Classes\Collectables</Filter>
-    </ClInclude>
-    <ClInclude Include="PowerDownCollectable.h">
-      <Filter>Derived Classes\Collectables</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base Classes">
@@ -243,9 +225,6 @@
     </Filter>
     <Filter Include="Derived Classes\Ball class">
       <UniqueIdentifier>{11f51aac-b129-435f-97a7-41b044629cf3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Derived Classes\Collectables">
-      <UniqueIdentifier>{17b9b65d-4866-4695-af08-1f48cc5d12ab}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

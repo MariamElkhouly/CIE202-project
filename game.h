@@ -18,9 +18,6 @@ enum MODE	//Game mode
 //Main class that coordinates the game operation
 class game
 {
-	int hr, min;
-	int sec;
-	std::chrono::time_point<std::chrono::system_clock> start; 
 	MODE gameMode;
 
 	/// Add more members if needed

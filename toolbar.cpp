@@ -234,11 +234,10 @@ iconLoad::iconLoad(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 
 void iconLoad::onClick()
 {
-	if (pGame->getMode() == MODE_DSIGN) {
+	if (pGame->getMode() == MODE_PLAY) {
 		grid* pGrid = pGame->getGrid(); 
 		if (pGrid) {
 			pGrid->loadGame("file.txt"); 
-			
 		}
 
 	}

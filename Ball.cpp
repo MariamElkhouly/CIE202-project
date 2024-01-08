@@ -56,7 +56,6 @@ void Ball::setVelocity(float v_x, float v_y)
 
 void Ball::setPosition(float x, float y)
 {
-    eraseball();
     uprLft.x = x;
     uprLft.y = y;
 }
