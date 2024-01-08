@@ -12,7 +12,8 @@ game::game()
 	start = std::chrono::system_clock::now(); //put this in  the space bar condition
 	//Initialize playgrond parameters
 	gameMode = MODE_DSIGN;
-
+	lives = 3;
+	score = 0;
 	hr = 0, min = 0;
 	sec = 0; 
 	//1 - Create the main window
@@ -102,11 +103,7 @@ void game::setScore(int a)
 {
 	score += a;
 	//will be filled according to each brick type
-	pWind->SetPen(config.penColor, 50);
-	pWind->SetFont(24, BOLD, BY_NAME, "Arial");
-	pWind->DrawString(config.windWidth - config.windWidth * 0.193, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, "Score: ");
-	pWind->DrawInteger(config.windWidth - config.windWidth * 0.13, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, score);
-}
+	}
 
 int game::getScore() const
 {
@@ -117,11 +114,7 @@ void game::setLives(int b)
 {
 	lives = b;
 	//conditions related to the brick type
-	pWind->SetPen(config.penColor, 50);
-	pWind->SetFont(24, BOLD, BY_NAME, "Arial");
-	pWind->DrawString(config.windWidth - config.windWidth * 0.29, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, "Lives: ");
-	pWind->DrawInteger(config.windWidth - config.windWidth * 0.23, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, lives);
-}
+	}
 
 int game::getLives() const
 {
@@ -193,13 +186,23 @@ void game::status()
 	pWind->SetPen(INDIANRED, 1);
 	pWind->SetBrush(KHAKI);
 	pWind->DrawRectangle(config.windWidth - config.windWidth * 0.2, config.windHeight - config.statusBarHeight, config.windWidth - config.windWidth * 0.1, config.windHeight);
+	pWind->SetPen(config.penColor, 50);
+	pWind->SetFont(24, BOLD, BY_NAME, "Arial");
+	pWind->DrawString(config.windWidth - config.windWidth * 0.193, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, "Score: ");
+	pWind->DrawInteger(config.windWidth - config.windWidth * 0.13, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, score);
+
 	//for the lives
 	pWind->SetPen(MAGENTA, 1);
 	pWind->SetBrush(MISTYROSE);
 	pWind->DrawRectangle(config.windWidth - config.windWidth * 0.3, config.windHeight - config.statusBarHeight, config.windWidth - config.windWidth * 0.2, config.windHeight);
+	pWind->SetPen(config.penColor, 50);
+	pWind->SetFont(24, BOLD, BY_NAME, "Arial");
+	pWind->DrawString(config.windWidth - config.windWidth * 0.29, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, "Lives: ");
+	pWind->DrawInteger(config.windWidth - config.windWidth * 0.23, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, lives);
 
-	setScore(0);
-	setLives(3);
+
+	//setScore(0);
+	//setLives(3);
 	timer();
 }
 
@@ -258,9 +261,13 @@ void game::go()
 	pBall->setVelocity(0, -10);
 	do
 	{
-
-		/*ptrPaddle->MovePaddle();
-		ptrPaddle->draw(); */
+		char cKeyData;
+		keytype  ktInput = pWind->GetKeyPress(cKeyData);
+		if (ktInput == ASCII && cKeyData == ' ')
+		{
+			isSpacePressed = true;
+		}
+		
 		if (gameMode == MODE_DSIGN)
 		{
 			printMessage("Ready...");
@@ -270,6 +277,7 @@ void game::go()
 
 		if (gameMode == MODE_DSIGN)		//Game is in the Desgin mode
 		{
+
 
 			printMessage("Ready...");
 			getMouseClick(x, y);	//Get the coordinates of the user click
@@ -281,66 +289,35 @@ void game::go()
 			}
 
 		}
-		else if (gameMode == MODE_PLAY) {
+		else if (gameMode == MODE_PLAY && isSpacePressed) {
 
-			status();
-
-
-			pBall->move();
-			pBall->draw();
-
-			if (pBall->collisionCheck(*pBall, *ptrPaddle))
-				pBall->reflectOffPaddle(*ptrPaddle);
-
-			char cKeyData = ' ';
-
-			if (pWind->GetKeyPress(cKeyData)) {
-				if (cKeyData == ' ') { // Check for spacebar press (ASCII value 32)
-					isSpacePressed = true;
-				}
-			}
-
-			if (isSpacePressed) {
-				pWind->GetMouseClick(x, y);
-				ptrPaddle->MovePaddle();
-				ptrPaddle->draw();
-
-				pBall->move();
-				pBall->draw();
-
-				/* if (pBall->collisionCheck(*pBall, *ptrPaddle))
-					pBall->reflectOffPaddle(*ptrPaddle);*/
-
-			
-			}
-
-			
-		
-		}
-		// Check if ball crosses the bottom
-		if (pBall->getPosition().y >= config.windHeight - config.statusBarHeight) {
-			// Lose a life
-			setLives(getLives() - 1);
-
-			// If no more lives, end the game
 			if (getLives() <= 0) {
 
 				printMessage("Game Over! Final Score: " + to_string(getScore()));
-				break; // Exit the game loop
+				//pBall->setPosition(250, 250);
+				//pBall->setVelocity(0, -10);
+			}
+			else
+			{
+				status();
+				
+
 			}
 
-			if (y >= 0 && y < config.toolBarHeight) {
-				isExit = gameToolbar->handleClick(x, y);
-			}
-		}
-
-		else if (gameMode == MODE_PLAY) {
-
-			status();
-
-			bricksGrid->removeGrid();
 			pBall->move();
 			pBall->draw();
+			ptrPaddle->draw();
+			ptrPaddle->MovePaddle();
+			bricksGrid->removeGrid();
+
+			pWind->GetMouseClick(x, y);
+			if (y >= 0 && y < config.toolBarHeight)
+			{
+				isExit = gameToolbar->handleClick(x, y);
+			}
+
+			if (pBall->collisionCheck(*pBall, *ptrPaddle))
+				pBall->reflectOffPaddle(*ptrPaddle);
 
 			for (int i = 0; i <= 10; i++) {
 				for (int j = 0; j < 20; j++) {
@@ -360,15 +337,13 @@ void game::go()
 					}
 				}
 			}
+			/*if (pBall->collisionCheck(*pBall, *ptrPaddle))
+				pBall->reflectOffPaddle(*ptrPaddle);*/
 
 
-			if (pBall->collisionCheck(*pBall, *ptrPaddle))
-				pBall->reflectOffPaddle(*ptrPaddle);
-
-
-			pWind->GetMouseClick(x, y);
+			/*pWind->GetMouseClick(x, y);
 			ptrPaddle->MovePaddle();
-			ptrPaddle->draw();
+			ptrPaddle->draw();*/
 
 			if (y >= 0 && y < config.toolBarHeight)
 			{
@@ -380,8 +355,30 @@ void game::go()
 				ptrPaddle->draw();
 			}
 
+			//if (y >= 0 && y < config.toolBarHeight) {
+			//	ptrPaddle->MovePaddle();
+			//	ptrPaddle->draw();
+			//	if (pBrick->getStrength() == 0)
+			//		bricksGrid->disappear(pBrick); //to make the brick disappear if the brick's strength is 0	
+			//}
+
+			if (pBall->getPosition().y > config.windHeight - config.statusBarHeight) {
+
+				setLives(getLives() - 1);
+				if (getLives()>0)
+				{
+					pBall->setPosition(config.ballx, config.bally);
+					ptrPaddle->setPosition(config.paddleposx, config.paddleposy);
+					pBall->setVelocity(0, -10);
+				}
+				
+
+			}
+
+			
 		}
 
+		
 
 	} while (!isExit);
 };

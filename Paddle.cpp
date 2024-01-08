@@ -43,6 +43,12 @@ void Paddle::erasepaddle()
     pw->SetPen(LAVENDER);
     pw->DrawRectangle(0, uprLft.y, 1200, uprLft.y + height, FILLED);
 }
+void Paddle::setPosition(float x, float y)
+{
+    erasepaddle();
+    uprLft.x = x;
+    uprLft.y = y;
+}
 void Paddle::collisionAction() {
 
     return;
