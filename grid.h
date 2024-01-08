@@ -14,6 +14,7 @@ public:
 	grid(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	~grid();
 	void disappear(brick* pBrick);
+	void bmbDisappear(brick* pBrick);
 	void draw() const;
 	void removeGrid() const;
 	int addBrick(BrickType brkType, point clickedPoint);
