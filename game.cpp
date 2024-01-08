@@ -257,7 +257,6 @@ void game::go()
 	pBall->setVelocity(0, -10);
 	do
 	{
-<<<<<<< HEAD
 
 		/*ptrPaddle->MovePaddle();
 		ptrPaddle->draw(); */
@@ -267,8 +266,6 @@ void game::go()
 
 		}
 		//getMouseClick(x, y);	//Get the coordinates of the user click
-=======
->>>>>>> master
 
 		if (gameMode == MODE_DSIGN)		//Game is in the Desgin mode
 		{
@@ -280,7 +277,6 @@ void game::go()
 			if (y >= 0 && y < config.toolBarHeight)
 			{
 				isExit = gameToolbar->handleClick(x, y);
-<<<<<<< HEAD
 			}
 
 		}
@@ -336,10 +332,7 @@ void game::go()
 				isExit = gameToolbar->handleClick(x, y);
 			}
 		}
-=======
-			}
 
-		}
 		else if (gameMode == MODE_PLAY) {
 
 			status();
@@ -382,7 +375,6 @@ void game::go()
 
 		}
 
->>>>>>> master
 
 	} while (!isExit);
-}
+};
