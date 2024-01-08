@@ -3,11 +3,14 @@
 enum collectableType{ Up, Down};
 class collectable :public collidable
 {
+
 protected:
 	int m;
 	bool start = false;
 	game* pG1;
+
 	collectableType TYPE;
+
 public:
 	collectable();
 	collectable(point ul, int w, int h, game* pG);
