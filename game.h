@@ -13,7 +13,8 @@
 enum MODE	//Game mode
 {
 	MODE_DSIGN,	//Desing mode (startup mode)
-	MODE_PLAY	//Playing mode
+	MODE_PLAY,	//Playing mode
+	MODE_PAUSE
 };
 //Main class that coordinates the game operation
 class game
@@ -42,6 +43,8 @@ public:
 	clicktype getMouseClick(int& x, int& y) const;//Get coordinate where user clicks and returns click type (left/right)
 	string getSrting() const;	 //Returns a string entered by the user
 	window* CreateWind(int, int, int, int) const; //creates the game window
+
+	void reset();
 	void clearStatusBar() const;	//Clears the status bar
 	void setScore(int a);
 	int getScore() const;
@@ -54,6 +57,8 @@ public:
 	void status();
 	void go();
 //	void updateCollectables();
+
+	Ball* getBall() const;
 	window* getWind() const;		//returns a pointer to the graphics window
 
 

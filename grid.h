@@ -17,12 +17,13 @@ public:
 	void bmbDisappear(brick* pBrick);
 	void shkDisappear(brick* pBrick);
 	void draw() const;
+	void drawGrid() const;
 	void removeGrid() const;
 	int addBrick(BrickType brkType, point clickedPoint);
 	//int COUNT();
 	int getcount();
 	void setCount(int a);
-
+	int numBricks() const;
 	brick* getBrick(int row, int column);
 
 

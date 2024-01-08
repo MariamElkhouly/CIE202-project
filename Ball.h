@@ -9,6 +9,7 @@ class Ball :
 private:
     image background;
     float diameter;
+    int strength;
     bool collidedWithPaddle = false;
     void checkEdges();
 
@@ -17,6 +18,8 @@ public:
     void move();
     point getVelocity() const;
     point getPosition() const;
+    int getStrength() const;
+    void setStrength(int s);
     void setVelocity(float v_x, float v_y);
     void setPosition(float x, float y);
     void reflectOffPaddle(Paddle& paddle);
