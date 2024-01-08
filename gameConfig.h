@@ -1,6 +1,7 @@
 #pragma once
 #include "CMUgraphicsLib/CMUgraphics.h"
 
+
 __declspec(selectany) //This line to prevent "redefinition error"
 struct 		//contains all game configurations (MAY be loaded from a configuration file later)
 {
@@ -29,7 +30,7 @@ struct 		//contains all game configurations (MAY be loaded from a configuration 
 
 	int	iconWidth=70;			//Width of each icon in toolbar 
 	int paddlew = 200, paddleh = 30;
-	int padding = 100;
+	int padding = 40;
 	int paddleposx =( windWidth/2)-(paddlew/2);
 	int paddleposy = windHeight - (statusBarHeight+paddleh+padding);
 
@@ -37,6 +38,8 @@ struct 		//contains all game configurations (MAY be loaded from a configuration 
 
 	int ballr = 20;
 	//int ballx = windWidth / 2;
+	//int ballx = paddleposx + (paddlew) / 2;
+	//int bally = paddleposy - ballr - 1;
 	int ballx = paddleposx + (paddlew) / 2;
 	int bally = paddleposy - ballr - 1;
 
