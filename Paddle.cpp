@@ -36,6 +36,72 @@ void Paddle::MovePaddle()
 
 }
 
+void Paddle::MovePaddleup()
+{
+    keytype ktInput;
+    char cKeyData;
+    window* pw = this->pGame->getWind();
+    ktInput = pw->GetKeyPress(cKeyData);
+    if (ktInput == ARROW)
+    {
+        if (cKeyData == 4)
+        {
+            erasepaddle();
+            uprLft.x -= 10;
+
+        }
+        else if (cKeyData == 6) {
+            erasepaddle();
+            uprLft.x += 10;
+        }
+
+    }
+}
+
+void Paddle::MovePaddledown()
+{
+    keytype ktInput;
+    char cKeyData;
+    window* pw = this->pGame->getWind();
+    ktInput = pw->GetKeyPress(cKeyData);
+    if (ktInput == ARROW)
+    {
+        if (cKeyData == 4)
+        {
+            erasepaddle();
+            uprLft.x -= 2;
+
+        }
+        else if (cKeyData == 6) {
+            erasepaddle();
+            uprLft.x += 2;
+        }
+
+    }
+}
+
+void Paddle::revPaddle()
+{
+    keytype ktInput;
+    char cKeyData;
+    window* pw = this->pGame->getWind();
+    ktInput = pw->GetKeyPress(cKeyData);
+    if (ktInput == ARROW)
+    {
+        if (cKeyData == 6)
+        {
+            erasepaddle();
+            uprLft.x -= 10;
+
+        }
+        else if (cKeyData == 4) {
+            erasepaddle();
+            uprLft.x += 10;
+        }
+
+    }
+}
+
 void Paddle::erasepaddle()
 {
     window* pw = this->pGame->getWind();

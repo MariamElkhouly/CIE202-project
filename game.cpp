@@ -159,6 +159,16 @@ void game::timer()
 	pWind->DrawInteger(config.windWidth - config.windWidth * 0.08, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, min);
 
 }
+int game:: getTimerMinutes() const{
+	auto end = std::chrono::system_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+	int min = (duration / (1000 * 60)) % 60;
+	return min;
+}
+
+void game:: resetTimer() {
+	start = std::chrono::system_clock::now(); // Reset the start time to the current time
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////
 

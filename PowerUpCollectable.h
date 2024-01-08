@@ -1,6 +1,7 @@
 #pragma once
 #include "collectable.h"
 #include "Paddle.h"
+#include "Ball.h"
 enum PowerUpType {
 	WGlide,//wind glide
 	B, //bonus
@@ -15,6 +16,8 @@ class PowerUpCollectable :public collectable
 
 protected:
 	Paddle* pPaddle;
+	Ball* pBall;
+
 public:
 	PowerUpCollectable(point ul, int w, int h, game* pG);
 	virtual ~PowerUpCollectable();

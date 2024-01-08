@@ -53,6 +53,8 @@ public:
 	void setMode(MODE a); //changing the mode
 	MODE getMode()const;
 	void timer(); //timer for the play mode
+	int getTimerMinutes()const ;
+	void resetTimer();
 	void printMessage(string msg) const;	//Print a message on Status bar
 	void status();
 	void go();

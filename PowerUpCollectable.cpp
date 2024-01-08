@@ -1,7 +1,14 @@
 #include "PowerUpCollectable.h"
-
+#include"Paddle.h" 
+#include"game.h"
+#include <iostream>
+#include <cmath>
+#include <sstream>
+#include<windows.h> 
+#include "CMUgraphicsLib/CMUgraphics.h" 
 PowerUpCollectable::PowerUpCollectable(point ul, int w, int h, game* pG) : collectable(ul, w, h, pG)
 {
+
 }
 
 PowerUpCollectable::~PowerUpCollectable()
@@ -16,8 +23,19 @@ WindGlide::WindGlide(point ul1, int w1, int h1, game* pG1) :PowerUpCollectable(u
 
 void WindGlide::collisionAction()
 {
+	game* pG1; 
 	if (collidable::collisionCheck(*this, *pPaddle)) {
-
+		//pG1->resetTimer();
+		if (!start)
+		{
+			m = pG1->getTimerMinutes();
+			start = true;
+		}
+		
+		if(pG1->getTimerMinutes() <= 2 + m){
+	
+			pPaddle->MovePaddleup();
+		}
 	}
 }
 
@@ -57,6 +75,16 @@ ExtraLives::ExtraLives(point ul1, int w1, int h1, game* pG1) :PowerUpCollectable
 void ExtraLives::collisionAction()
 {
 	if (collidable::collisionCheck(*this, *pPaddle)) {
+		if (!start)
+		{
+			m = pG1->getTimerMinutes();
+			start = true;
+		}
+
+		if (pG1->getTimerMinutes() <= 2 + m) {
+
+			pG1->setLives( pG1->getLives()+1);
+		}
 
 	}
 }
@@ -76,6 +104,16 @@ DoubleScore::DoubleScore(point ul1, int w1, int h1, game* pG1):PowerUpCollectabl
 void DoubleScore::collisionAction()
 {
 	if (collidable::collisionCheck(*this, *pPaddle)) {
+		if (!start)
+		{
+			m = pG1->getTimerMinutes();
+			start = true;
+		}
+
+		if (pG1->getTimerMinutes() <= 2 + m) {
+
+			pG1->setScore(2 * pG1->getScore());
+		}
 
 	}
 }
@@ -85,7 +123,7 @@ PowerUpType DoubleScore::getType() const
 	return Double;
 }
 
-/////////////  Magmet Class ////////////////////
+/////////////  Magnet Class ////////////////////
 Magnet::Magnet(point ul1, int w1, int h1, game* pG1) :PowerUpCollectable(ul1,w1,h1,pG1)
 {
 	imageName = "images\\collectables\\magnet.jpg";
@@ -94,8 +132,31 @@ Magnet::Magnet(point ul1, int w1, int h1, game* pG1) :PowerUpCollectable(ul1,w1,
 
 void Magnet::collisionAction()
 {
+	bool isSpacePressed = false;
+	char cKeyData;
+	window* pWind;
+	game* pMag;
 	if (collidable::collisionCheck(*this, *pPaddle)) {
-
+		if (!start)
+		{
+			m = pMag->getTimerMinutes(); 
+			start = true;
+		}
+		if (pMag->getTimerMinutes() >= 2 + m && isSpacePressed)
+		{
+			pBall->setVelocity(0, -10);
+		}
+		else
+		{
+			pBall->setPosition(config.ballx, config.bally);
+			pBall->setVelocity(0, 0);
+		}
+		keytype  ktInput = pWind->GetKeyPress(cKeyData);
+		if (ktInput == ASCII && cKeyData == ' ')
+		{
+			isSpacePressed = true;
+		} 
+		
 	}
 }
 
@@ -115,6 +176,17 @@ WidenPaddle::WidenPaddle(point ul1, int w1, int h1, game* pG1):PowerUpCollectabl
 void WidenPaddle::collisionAction()
 {
 	if (collidable::collisionCheck(*this, *pPaddle)) {
+		if (!start)
+		{
+			m = pG1->getTimerMinutes();
+			start = true;
+		}
+
+		if (pG1->getTimerMinutes() <= 1 + m) {
+
+			config.paddlew = 400;
+		}
+		
 
 	}
 }

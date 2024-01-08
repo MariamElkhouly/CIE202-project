@@ -2,6 +2,7 @@
 #pragma once
 #include "collectable.h"
 #include "Paddle.h"
+#include"game.h"
 enum PowerDownType {
 	Narrow,
 	Reverse,
