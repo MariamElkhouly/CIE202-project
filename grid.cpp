@@ -106,6 +106,40 @@ void grid::bmbDisappear(brick* pBrick)
 	}
 }
 
+void grid::shkDisappear(brick* pBrick)
+{
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			if (brickMatrix[i][j] == pBrick) {
+				window* pWind = pGame->getWind();
+				if (pBrick->getType() == BRK_SHK) {
+					// Disappear entire row except for the shockwave brick
+					for (int k = 0; k < cols; k++) {
+						if (brickMatrix[i][k] && k != j) {
+							pWind->SetPen(config.gridLinesColor, 1);
+							pWind->SetBrush(LAVENDER);
+							pWind->DrawRectangle(brickMatrix[i][k]->getPosition().x, brickMatrix[i][k]->getPosition().y, brickMatrix[i][k]->getPosition().x + config.brickWidth, brickMatrix[i][k]->getPosition().y + config.brickHeight);
+							delete brickMatrix[i][k];
+							brickMatrix[i][k] = nullptr;
+						}
+					}
+
+					// Disappear entire column except for the shockwave brick
+					for (int k = 0; k < rows; k++) {
+						if (brickMatrix[k][j] && k != i) {
+							pWind->SetPen(config.gridLinesColor, 1);
+							pWind->SetBrush(LAVENDER);
+							pWind->DrawRectangle(brickMatrix[k][j]->getPosition().x, brickMatrix[k][j]->getPosition().y, brickMatrix[k][j]->getPosition().x + config.brickWidth, brickMatrix[k][j]->getPosition().y + config.brickHeight);
+							delete brickMatrix[k][j];
+							brickMatrix[k][j] = nullptr;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
 
 
 

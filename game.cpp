@@ -291,6 +291,11 @@ void game::go()
 								bricksGrid->bmbDisappear(pBrick);
 								bricksGrid->disappear(pBrick);
 							}
+							else if (pBrick->getType() == BRK_SHK)
+							{
+								bricksGrid->shkDisappear(pBrick);
+								bricksGrid->disappear(pBrick);
+							}
 							else
 								bricksGrid->disappear(pBrick);
 						}
