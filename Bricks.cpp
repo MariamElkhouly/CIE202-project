@@ -183,17 +183,7 @@ powerBrick::powerBrick(point r_uprleft, int r_width, int r_height, game* r_pGame
 }
 void powerBrick::collisionAction()
 {
-srand(time(0));
-int randomUpAndDown = rand() % 2;
 
-if (randomUpAndDown == 0) {
-	//PowerUpType = rand() % 8;
-}
-else
-{
-	//PowerDownType = rand() % 3;
-}
-int randomVerticalPosition = rand() % (pGame->getWind()->GetHeight()+1);
 if (getStrength() == 0) {
 }
 launchCollectible();
@@ -265,12 +255,10 @@ void powerBrick::launchCollectible()
 	}
 
 	// Set the vertical position randomly
-	int randomVerticalPosition = rand() % (pGame->getWind()->GetHeight() + 1);
+	int randomVerticalPosition = 30+rand() % (pGame->getWind()->GetHeight()-30 + 1);
 	pCollectable->setUpperLeftPoint(pCollectable->getUpperLeftPoint().x, randomVerticalPosition);
 
 	// Set the velocity to move vertically downwards
 	pCollectable->setVelocity(0, 5);
 
-	// Add the collectable to the game
-	pGame->addCollectable(pCollectable);
 }

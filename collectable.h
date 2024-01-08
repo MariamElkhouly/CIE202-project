@@ -5,6 +5,7 @@ class collectable :public collidable
 {
 	collectableType TYPE;
 public:
+	collectable();
 	collectable(point ul, int w, int h, game* pG);
 	virtual ~collectable();
 	virtual collectableType getType();
@@ -15,6 +16,7 @@ public:
 	virtual int getHeight() const;
 	void setUpperLeftPoint(int x, int y);
 	void setVelocity(float v_x, float v_y); 
+	virtual void collisionAction();
  };
 
 

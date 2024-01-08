@@ -1,5 +1,8 @@
 #include "Collectable.h"
 #include "game.h"
+collectable::collectable():collidable(uprLft,width,height,pGame)
+{
+}
 collectable::collectable(point ul, int w, int h, game* pG) : collidable(ul, w, h, pG)
 {
 }
@@ -50,6 +53,10 @@ void collectable::setVelocity(float v_x, float v_y)
 {
     vel.x = v_x;
     vel.y = v_y;
+}
+
+void collectable::collisionAction()
+{
 }
 
 
