@@ -13,7 +13,8 @@ enum PowerUpType {
 	Double, //double score
 	Mgnt, //magnet
 	Wide, //widen the paddle
-	Multi //multible balls
+	Multi, //multible balls
+	FIRE
 };
 class PowerUpCollectable :public collectable
 {
@@ -75,6 +76,14 @@ public:
 	void collisionAction();
 	PowerUpType getType() const;
 
+};
+
+class FireBall :public PowerUpCollectable {
+
+public:
+	FireBall(point p, int w1, int h1, game* pG1);
+	void collisionAction();
+	PowerUpType getType() const override;
 };
 
 class MultibleBalls :public PowerUpCollectable {

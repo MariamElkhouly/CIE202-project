@@ -90,6 +90,7 @@ window* game::CreateWind(int w, int h, int x, int y) const
 	return pW;
 }
 
+
 //void game::updateCollectables()
 //{
 //	for (int i=0;i<bricksGrid->getcount();i++)
@@ -100,7 +101,6 @@ window* game::CreateWind(int w, int h, int x, int y) const
 //		// Check if the collectable is out of the screen
 //		if ((collectables[i])->getUpperLeftPoint().y > getWind()->GetHeight())
 //		{
-//			// If the collectable is out of the screen, delete it and remove from the vector
 //			delete (collectables[i]);
 //		}
 //		else if (ptrPaddle->collisionCheck(*collectables[i], *ptrPaddle))
@@ -108,11 +108,19 @@ window* game::CreateWind(int w, int h, int x, int y) const
 //			// If there is a collision with the paddle
 //			collectables[i]->move();  // Perform actions when a collision with the paddle occurs
 //
-//			// Remove the collectable from the vector
 //			delete (collectables[i]);
 //		}
 //	}
 //}
+
+void game::reset()
+{
+	score = 0;
+	lives = 3;
+	sec = 0;
+	pBall->setPosition(config.ballx, config.bally - 50);
+	pBall->setVelocity(0, -10);
+}
 
 
 
@@ -307,14 +315,18 @@ void game::go()
 		
 		if (gameMode == MODE_DSIGN)
 		{
+			pBall->eraseball();
+			reset();
 			printMessage("Ready...");
+			
 
 		}
 		//getMouseClick(x, y);	//Get the coordinates of the user click
 
 		if (gameMode == MODE_DSIGN)		//Game is in the Desgin mode
 		{
-
+			isSpacePressed = false;
+			bricksGrid->draw();
 			printMessage("Ready...");
 			getMouseClick(x, y);	//Get the coordinates of the user click
 
@@ -330,6 +342,7 @@ void game::go()
 			if (getLives() <= 0) {
 
 				printMessage("Game Over! Final Score: " + to_string(getScore()));
+				gameMode = MODE_DSIGN;
 			}
 			else
 			{
@@ -359,9 +372,10 @@ void game::go()
 					pBrick = bricksGrid->getBrick(i, j);
 					if (pBrick ) {
 						if (collidable::collisionCheck(*pBall, *pBrick)) {
+							pBall->clearScreen();
 							pBall->Reflect(*pBrick);
 							pBrick->decreaseStrength(*pBall); // Decrease the strength of the brick
-							if (pBrick->getStrength() == 0) {
+							if (pBrick->getStrength() <= 0) {
 								if (pBrick->getType() == BRK_BMB)
 								{
 									bricksGrid->bmbDisappear(pBrick);
@@ -374,6 +388,7 @@ void game::go()
 								}
 								else
 									bricksGrid->disappear(pBrick);
+								}
 							}
 						}
 					}
@@ -390,6 +405,11 @@ void game::go()
 				ptrPaddle->draw();
 			}
 
+			if ( bricksGrid->numBricks() == 0 ){
+				printMessage("End Game! Score:" + to_string(getScore()) + " \tClick anywhere");
+				getMouseClick(x, y);
+				gameMode = MODE_DSIGN;
+			}
 
 			if (pBall->getPosition().y > config.windHeight - config.statusBarHeight) {
 
@@ -404,10 +424,22 @@ void game::go()
 
 			}
 
+			else if (gameMode == MODE_PAUSE) {
+				pWind->GetMouseClick(x, y);
+				if (y >= 0 && y < config.toolBarHeight)
+				{
+					isExit = gameToolbar->handleClick(x, y);
+				}
+			}
 			
-		}
+		} while (!isExit);
 
 		
 
-	} while (!isExit);
-};
+	
+}
+Ball* game::getBall() const
+{
+	return pBall;
+}
+;
