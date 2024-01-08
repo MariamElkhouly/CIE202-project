@@ -6,7 +6,8 @@
 #include <string>
 #include "Ball.h"
 #include "Paddle.h"
-
+#include <vector>
+#include <iostream>
 
 //Main class that coordinates the game operation
 enum MODE	//Game mode
@@ -31,20 +32,19 @@ class game
 	Paddle* ptrPaddle;
 	Ball* pBall; 
 	brick* pBrick;
-
+	collectable* Pcollect;
 	int score = 0;
 	int lives;
-
+	std::vector<collectable*> collectables;
 public:
 	game();
 	~game();
 
 	clicktype getMouseClick(int& x, int& y) const;//Get coordinate where user clicks and returns click type (left/right)
 	string getSrting() const;	 //Returns a string entered by the user
-
-
+	void addCollectable(collectable* pCollectable);
+	void updateCollectables(); // Update and remove collectables
 	window* CreateWind(int, int, int, int) const; //creates the game window
-
 	void clearStatusBar() const;	//Clears the status bar
 	void setScore(int a);
 	int getScore() const;

@@ -2,6 +2,7 @@
 
 PowerUpCollectable::PowerUpCollectable(point ul, int w, int h, game* pG) : collectable(ul, w, h, pG)
 {
+	setType(Up);
 }
 
 PowerUpCollectable::~PowerUpCollectable()
@@ -25,6 +26,7 @@ PowerUpType WindGlide::getType() const
 {
 	return  WGlide;
 }
+
 
 ////////// Bonus class ////////////
 
@@ -142,3 +144,6 @@ PowerUpType MultibleBalls::getType() const
 {
 	return Multi;
 }
+
+
+

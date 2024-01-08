@@ -9,7 +9,6 @@
 using namespace std;
 game::game()
 {
-	start = std::chrono::system_clock::now(); //put this in  the space bar condition
 	//Initialize playgrond parameters
 	gameMode = MODE_DSIGN;
 	lives = 3;
@@ -79,6 +78,11 @@ clicktype game::getMouseClick(int& x, int& y) const
 {
 	return pWind->WaitMouseClick(x, y);	//Wait for mouse click
 }
+void game::addCollectable(collectable* pCollectable)
+{
+	collectables.push_back(pCollectable); 
+
+}
 //////////////////////////////////////////////////////////////////////////////////////////
 window* game::CreateWind(int w, int h, int x, int y) const
 {
@@ -88,6 +92,38 @@ window* game::CreateWind(int w, int h, int x, int y) const
 	pW->DrawRectangle(0, 0, w, h);
 	return pW;
 }
+
+void game::updateCollectables()
+{
+	for (auto it = collectables.begin(); it != collectables.end();)
+	{
+		// Update the collectable's position
+		(*it)->move();
+
+		// Check if the collectable is out of the screen
+		if ((*it)->getUpperLeftPoint().y > getWind()->GetHeight())
+		{
+			// If the collectable is out of the screen, delete it and remove from the vector
+			delete (*it);
+			it = collectables.erase(it);
+		}
+		else if (ptrPaddle->collisionCheck(*Pcollect,*ptrPaddle))
+		{
+			// If there is a collision with the paddle
+			Pcollect->move();  // Perform actions when a collision with the paddle occurs
+
+			// Remove the collectable from the vector
+			delete (*it);
+			it = collectables.erase(it);
+		}
+		else
+		{
+			// If no collision or out of screen, increment the iterator
+			++it;
+		}
+	}
+}
+
 
 
 
@@ -201,8 +237,7 @@ void game::status()
 	pWind->DrawInteger(config.windWidth - config.windWidth * 0.23, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, lives);
 
 
-	//setScore(0);
-	//setLives(3);
+	
 	timer();
 }
 
@@ -263,8 +298,10 @@ void game::go()
 	{
 		char cKeyData;
 		keytype  ktInput = pWind->GetKeyPress(cKeyData);
+		//printMessage("Enter the space bar to start the game");
 		if (ktInput == ASCII && cKeyData == ' ')
 		{
+			start = std::chrono::system_clock::now();
 			isSpacePressed = true;
 		}
 		
@@ -277,7 +314,6 @@ void game::go()
 
 		if (gameMode == MODE_DSIGN)		//Game is in the Desgin mode
 		{
-
 
 			printMessage("Ready...");
 			getMouseClick(x, y);	//Get the coordinates of the user click
@@ -305,6 +341,8 @@ void game::go()
 			ptrPaddle->draw();
 			ptrPaddle->MovePaddle();
 			bricksGrid->removeGrid();
+
+			//updateCollectables();
 
 			pWind->GetMouseClick(x, y);
 			if (y >= 0 && y < config.toolBarHeight)

@@ -2,6 +2,7 @@
 
 PowerDownCollectable::PowerDownCollectable(point ul, int w, int h, game* pG) :collectable(ul,w,h,pG)
 {
+	setType(Down);
 }
 
 PowerDownCollectable::~PowerDownCollectable()
