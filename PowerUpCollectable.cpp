@@ -8,11 +8,8 @@
 #include "CMUgraphicsLib/CMUgraphics.h" 
 PowerUpCollectable::PowerUpCollectable(point ul, int w, int h, game* pG) : collectable(ul, w, h, pG)
 {
-<<<<<<< HEAD
-
-=======
 	setType(Up);
->>>>>>> master
+
 }
 
 PowerUpCollectable::~PowerUpCollectable()
