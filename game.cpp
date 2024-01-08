@@ -120,6 +120,7 @@ void game::reset()
 	sec = 0;
 	pBall->setPosition(config.ballx, config.bally - 50);
 	pBall->setVelocity(0, -10);
+	ptrPaddle->setPosition(config.paddleposx, config.paddleposy);
 }
 
 
@@ -343,6 +344,7 @@ void game::go()
 
 				printMessage("Game Over! Final Score: " + to_string(getScore()));
 				gameMode = MODE_DSIGN;
+				getMouseClick(x, y);
 			}
 			else
 			{
