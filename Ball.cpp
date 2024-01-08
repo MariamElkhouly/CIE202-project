@@ -55,6 +55,7 @@ void Ball::setVelocity(float v_x, float v_y)
 
 void Ball::setPosition(float x, float y)
 {
+    eraseball();
     uprLft.x = x;
     uprLft.y = y;
 }
@@ -83,6 +84,14 @@ void Ball::draw() const
 
 void Ball::collisionAction()
 {
+}
+
+void Ball::eraseball()
+{
+    window* pw = this->pGame->getWind();
+    pw->SetBrush(LAVENDER);
+    pw->SetPen(LAVENDER);
+    pw->DrawRectangle(0, uprLft.y, 1200, uprLft.y + height, FILLED);
 }
 
 

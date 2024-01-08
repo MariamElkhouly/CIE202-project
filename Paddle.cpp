@@ -22,12 +22,12 @@ void Paddle::MovePaddle()
             if (cKeyData == 4)
             {
                 erasepaddle();
-                uprLft.x--;
+                uprLft.x-=5;
 
             }
             else if (cKeyData == 6) {
                 erasepaddle();
-                uprLft.x++;
+                uprLft.x+=5;
             }
 
         }
@@ -42,6 +42,12 @@ void Paddle::erasepaddle()
     pw->SetBrush(LAVENDER);
     pw->SetPen(LAVENDER);
     pw->DrawRectangle(0, uprLft.y, 1200, uprLft.y + height, FILLED);
+}
+void Paddle::setPosition(float x, float y)
+{
+    erasepaddle();
+    uprLft.x = x;
+    uprLft.y = y;
 }
 void Paddle::collisionAction() {
 

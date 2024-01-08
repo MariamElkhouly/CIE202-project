@@ -23,5 +23,6 @@ public:
     void draw() const override;
     void clearScreen() const;
     void collisionAction();
+    void eraseball();
 };
 

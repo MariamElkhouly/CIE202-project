@@ -10,6 +10,5 @@ int main()
 	
 	Game.go(); 
 
-	return 0;
 }
 
