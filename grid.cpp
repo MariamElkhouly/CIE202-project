@@ -23,16 +23,16 @@ grid::grid(point r_uprleft, int wdth, int hght, game* pG):
 
 grid::~grid()
 {
-	for (int i = 0; i < rows; i++)
-		for (int j = 0; j < cols; j++)
-			if (brickMatrix[i][j])
-				delete brickMatrix[i][j];	//delete all allocated bricks
-
-	for (int i = 0; i < rows; i++)
-		delete brickMatrix[i];
-
-	delete brickMatrix;
-
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			if (brickMatrix[i][j]) {
+				delete brickMatrix[i][j];
+				brickMatrix[i][j] = nullptr;
+			}
+		}
+		delete[] brickMatrix[i];
+	}
+	delete[] brickMatrix;
 }
 
 void grid::disappear(brick* pBrick)
@@ -41,17 +41,73 @@ void grid::disappear(brick* pBrick)
 	for (int i = 0; i < rows; i++) {
 		for (int j = 0; j < cols; j++) {
 			if (brickMatrix[i][j] == pBrick) {
-				window* pWind = pGame->getWind();
-				pWind->SetPen(config.gridLinesColor, 1);
-				pWind->SetBrush(LAVENDER);
-				pWind->DrawRectangle(brickMatrix[i][j]->getPosition().x, brickMatrix[i][j]->getPosition().y, pBrick->getPosition().x + config.brickWidth, pBrick->getPosition().y + config.brickHeight);
-				delete brickMatrix[i][j];
-				brickMatrix[i][j] = nullptr;
-				return;  // Assuming each brick exists only once in the grid
+					window* pWind = pGame->getWind();
+					pWind->SetPen(config.gridLinesColor, 1);
+					pWind->SetBrush(LAVENDER);
+					pWind->DrawRectangle(brickMatrix[i][j]->getPosition().x, brickMatrix[i][j]->getPosition().y, pBrick->getPosition().x + config.brickWidth, pBrick->getPosition().y + config.brickHeight);
+					delete brickMatrix[i][j];
+					brickMatrix[i][j] = nullptr;
+				
+				//return;  // Assuming each brick exists only once in the grid
 			}
 		}
 	}
 }
+
+void grid::bmbDisappear(brick* pBrick)
+{
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			if (brickMatrix[i][j] == pBrick) {
+				window* pWind = pGame->getWind();
+				if (pBrick->getType() == BRK_BMB) {
+					// Disappear brick below
+					if (i + 1 < rows && brickMatrix[i + 1][j]) {
+						pWind->SetPen(config.gridLinesColor, 1);
+						pWind->SetBrush(LAVENDER);
+						pWind->DrawRectangle(brickMatrix[i + 1][j]->getPosition().x, brickMatrix[i + 1][j]->getPosition().y, brickMatrix[i + 1][j]->getPosition().x + config.brickWidth, brickMatrix[i + 1][j]->getPosition().y + config.brickHeight);
+						delete brickMatrix[i + 1][j];
+						brickMatrix[i + 1][j] = nullptr;
+					}
+					// Disappear brick above
+					if (i - 1 >= 0 && brickMatrix[i - 1][j]) {
+						pWind->SetPen(config.gridLinesColor, 1);
+						pWind->SetBrush(LAVENDER);
+						pWind->DrawRectangle(brickMatrix[i - 1][j]->getPosition().x, brickMatrix[i - 1][j]->getPosition().y, brickMatrix[i - 1][j]->getPosition().x + config.brickWidth, brickMatrix[i - 1][j]->getPosition().y + config.brickHeight);
+						delete brickMatrix[i - 1][j];
+						brickMatrix[i - 1][j] = nullptr;
+					}
+					// Disappear brick to the right
+					if (j + 1 < cols && brickMatrix[i][j + 1]) {
+						pWind->SetPen(config.gridLinesColor, 1);
+						pWind->SetBrush(LAVENDER);
+						pWind->DrawRectangle(brickMatrix[i][j + 1]->getPosition().x, brickMatrix[i][j + 1]->getPosition().y, brickMatrix[i][j + 1]->getPosition().x + config.brickWidth, brickMatrix[i][j + 1]->getPosition().y + config.brickHeight);
+						delete brickMatrix[i][j + 1];
+						brickMatrix[i][j + 1] = nullptr;
+					}
+					// Disappear brick to the left
+					if (j - 1 >= 0 && brickMatrix[i][j - 1]) {
+						pWind->SetPen(config.gridLinesColor, 1);
+						pWind->SetBrush(LAVENDER);
+						pWind->DrawRectangle(brickMatrix[i][j - 1]->getPosition().x, brickMatrix[i][j - 1]->getPosition().y, brickMatrix[i][j - 1]->getPosition().x + config.brickWidth, brickMatrix[i][j - 1]->getPosition().y + config.brickHeight);
+						delete brickMatrix[i][j - 1];
+						brickMatrix[i][j - 1] = nullptr;
+					}
+
+					// Delete the bomb brick itself
+					pWind->SetPen(config.gridLinesColor, 1);
+					pWind->SetBrush(LAVENDER);
+					pWind->DrawRectangle(brickMatrix[i][j]->getPosition().x, brickMatrix[i][j]->getPosition().y, brickMatrix[i][j]->getPosition().x + config.brickWidth, brickMatrix[i][j]->getPosition().y + config.brickHeight);
+					delete brickMatrix[i][j];
+					brickMatrix[i][j] = nullptr;
+				}
+			}
+		}
+	}
+}
+
+
+
 
 void grid::draw() const
 {

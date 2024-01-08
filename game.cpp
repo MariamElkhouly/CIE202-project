@@ -349,7 +349,13 @@ void game::go()
 						pBall->Reflect(*pBrick);
 						pBrick->decreaseStrength(*pBall); // Decrease the strength of the brick
 						if (pBrick->getStrength() == 0) {
-							bricksGrid->disappear(pBrick);
+							if (pBrick->getType() == BRK_BMB)
+							{
+								bricksGrid->bmbDisappear(pBrick);
+								bricksGrid->disappear(pBrick);
+							}
+							else
+								bricksGrid->disappear(pBrick);
 						}
 					}
 				}
