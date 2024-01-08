@@ -2,10 +2,11 @@
 #include"Paddle.h" 
 #include"game.h"
 #include <iostream>
-#include <cmath>
+#include<cmath>
 #include <sstream>
 #include<windows.h> 
 #include "CMUgraphicsLib/CMUgraphics.h" 
+#include "gameConfig.h"
 PowerUpCollectable::PowerUpCollectable(point ul, int w, int h, game* pG) : collectable(ul, w, h, pG)
 {
 

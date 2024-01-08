@@ -1,11 +1,9 @@
 #pragma once
 #include "collectable.h"
 #include "Paddle.h"
-<<<<<<< HEAD
+
 #include "Ball.h"
-=======
 #include "game.h"
->>>>>>> master
 enum PowerUpType {
 	WGlide,//wind glide
 	B, //bonus

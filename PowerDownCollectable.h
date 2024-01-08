@@ -1,11 +1,9 @@
 #pragma once
 #include "collectable.h"
 #include "Paddle.h"
-<<<<<<< HEAD
+
 #include"game.h"
-=======
 #include "game.h"
->>>>>>> master
 enum PowerDownType {
 	Narrow,
 	Reverse,
