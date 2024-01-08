@@ -9,10 +9,12 @@
 using namespace std;
 game::game()
 {
+	start = std::chrono::system_clock::now(); //put this in  the space bar condition
 	//Initialize playgrond parameters
 	gameMode = MODE_DSIGN;
 
-
+	hr = 0, min = 0;
+	sec = 0; 
 	//1 - Create the main window
 	pWind = CreateWind(config.windWidth, config.windHeight, config.wx, config.wy);
 
@@ -140,14 +142,13 @@ MODE game::getMode() const
 
 void game::timer()
 {
-	int hr = 0, min = 0;
-	int sec = 0;
-	// Start the timer
-	auto start = std::chrono::steady_clock::now();
-		// Check the elapsed time
-	auto end = std::chrono::steady_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
-	sec = duration;
+	// Check the elapsed time
+	auto end = std::chrono::system_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+	// Calculate hours, minutes, and seconds
+	sec = (duration / 1000) % 60;
+	min = (duration / (1000 * 60)) % 60;
+	hr = duration / (1000 * 60 * 60);
 	if (sec == 60)
 	{
 		sec = 0;
