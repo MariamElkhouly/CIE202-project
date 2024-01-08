@@ -142,3 +142,26 @@ PowerUpType MultibleBalls::getType() const
 {
 	return Multi;
 }
+
+ /////////// FireBall class ////////////
+FireBall::FireBall(point p, int w1, int h1, game* pG1) :PowerUpCollectable(p,w1,h1,pG1)
+{
+	imageName = "images\\collectables\\fireball.jpg";
+}
+
+void FireBall::collisionAction()
+{
+	if (collidable::collisionCheck(*this, *pPaddle)) {
+		//window* wind = this->pGame->getWind();
+		Ball* pBall = this->pGame->getBall();
+		pBall->setImageName(imageName);
+		pBall->setStrength(10);
+		pBall = nullptr;
+	}
+}
+
+PowerUpType FireBall::getType() const
+{
+	return FIRE;
+}
+

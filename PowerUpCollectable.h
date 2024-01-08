@@ -1,6 +1,7 @@
 #pragma once
 #include "collectable.h"
 #include "Paddle.h"
+#include "game.h"
 enum PowerUpType {
 	WGlide,//wind glide
 	B, //bonus
@@ -8,7 +9,8 @@ enum PowerUpType {
 	Double, //double score
 	Mgnt, //magnet
 	Wide, //widen the paddle
-	Multi //multible balls
+	Multi, //multible balls
+	FIRE
 };
 class PowerUpCollectable :public collectable
 {
@@ -60,6 +62,14 @@ public:
 class WidenPaddle :public PowerUpCollectable {
 public:
 	WidenPaddle(point ul1, int w1, int h1, game* pG1);
+	void collisionAction();
+	PowerUpType getType() const override;
+};
+
+class FireBall :public PowerUpCollectable {
+
+public:
+	FireBall(point p, int w1, int h1, game* pG1);
 	void collisionAction();
 	PowerUpType getType() const override;
 };

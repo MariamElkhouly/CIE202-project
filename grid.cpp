@@ -168,6 +168,24 @@ void grid::draw() const
 
 }
 
+void grid::drawGrid() const
+{
+	window* pWind = pGame->getWind();
+	//draw lines showing the grid
+	pWind->SetPen(config.gridLinesColor,1);
+
+	//draw horizontal lines
+	for (int i = 0; i < rows; i++) {
+		int y = uprLft.y + (i + 1) * config.brickHeight;
+		pWind->DrawLine(0, y, width, y);
+	}
+	//draw vertical lines
+	for (int i = 0; i < cols; i++) {
+		int x = (i + 1) * config.brickWidth;
+		pWind->DrawLine(x, uprLft.y, x, uprLft.y+ rows* config.brickHeight);
+	}
+}
+
 void grid::removeGrid() const
 {
 	window* pWind = pGame->getWind();
@@ -231,6 +249,18 @@ int grid::addBrick(BrickType brkType, point clickedPoint)
 		// handle more types
 	}
 	return 1;
+}
+
+int grid::numBricks() const
+{
+	int c = 0;
+	for (int i = 0; i <= 10; i++) {
+		for (int j = 0; j < 20; j++) {
+			if (brickMatrix[i][j])
+				c++;
+		}
+	}
+	return c;
 }
 
 

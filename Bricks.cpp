@@ -20,7 +20,7 @@ int brick::getStrength() const
 void brick::decreaseStrength(Ball& a)
 {
 	if (Strength > 0) {
-		Strength -= 1;
+		Strength -= a.getStrength();
 		// Call the collision action for the specific brick type
 		collisionAction();
 	}

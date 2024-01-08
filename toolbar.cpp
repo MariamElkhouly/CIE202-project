@@ -270,6 +270,7 @@ iconPause::iconPause(point r_uprleft, int r_width, int r_height, game* r_pGame) 
 void iconPause::onClick()
 {
 	if (pGame->getMode() == MODE_PLAY) {
+		pGame->setMode(MODE_PAUSE);
 	}
 
 
@@ -282,7 +283,8 @@ iconContinue::iconContinue(point r_uprleft, int r_width, int r_height, game* r_p
 
 void iconContinue::onClick()
 {
-	if (pGame->getMode() == MODE_PLAY) {
+	if (pGame->getMode() == MODE_PAUSE) {
+		pGame->setMode(MODE_PLAY);
 	}
 
 }
@@ -294,7 +296,8 @@ iconStop::iconStop(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 
 void iconStop::onClick()
 {
-	if (pGame->getMode() == MODE_PLAY) {
+	if (pGame->getMode() == MODE_PLAY || pGame->getMode() == MODE_PAUSE) {
+		pGame->setMode(MODE_DSIGN);
 	}
 
 }
@@ -306,6 +309,7 @@ iconExit::iconExit(point r_uprleft, int r_width, int r_height, game* r_pGame):
 
 void iconExit::onClick()
 {
+	pGame->setMode(MODE_DSIGN);
 	//TO DO: add code for cleanup and game exit here
 }
 

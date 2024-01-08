@@ -89,6 +89,15 @@ window* game::CreateWind(int w, int h, int x, int y) const
 	return pW;
 }
 
+void game::reset()
+{
+	score = 0;
+	lives = 3;
+	sec = 0;
+	pBall->setPosition(config.ballx, config.bally - 50);
+	pBall->setVelocity(0, -10);
+}
+
 
 
 void game::clearStatusBar() const
@@ -270,15 +279,18 @@ void game::go()
 		
 		if (gameMode == MODE_DSIGN)
 		{
+			pBall->eraseball();
+			reset();
 			printMessage("Ready...");
+			
 
 		}
 		//getMouseClick(x, y);	//Get the coordinates of the user click
 
 		if (gameMode == MODE_DSIGN)		//Game is in the Desgin mode
 		{
-
-
+			isSpacePressed = false;
+			bricksGrid->draw();
 			printMessage("Ready...");
 			getMouseClick(x, y);	//Get the coordinates of the user click
 
@@ -294,6 +306,7 @@ void game::go()
 			if (getLives() <= 0) {
 
 				printMessage("Game Over! Final Score: " + to_string(getScore()));
+				gameMode = MODE_DSIGN;
 			}
 			else
 			{
@@ -349,6 +362,11 @@ void game::go()
 				ptrPaddle->draw();
 			}
 
+			if ( bricksGrid->numBricks() == 0 ){
+				printMessage("End Game! Score:" + to_string(getScore()) + " \tClick anywhere");
+				getMouseClick(x, y);
+				gameMode = MODE_DSIGN;
+			}
 
 			if (pBall->getPosition().y > config.windHeight - config.statusBarHeight) {
 
@@ -365,8 +383,20 @@ void game::go()
 
 			
 		}
+		else if (gameMode == MODE_PAUSE) {
+			pWind->GetMouseClick(x, y);
+			if (y >= 0 && y < config.toolBarHeight)
+			{
+				isExit = gameToolbar->handleClick(x, y);
+			}
+		}
 
 		
 
 	} while (!isExit);
-};
+}
+Ball* game::getBall() const
+{
+	return pBall;
+}
+;

@@ -12,7 +12,8 @@
 enum MODE	//Game mode
 {
 	MODE_DSIGN,	//Desing mode (startup mode)
-	MODE_PLAY	//Playing mode
+	MODE_PLAY,	//Playing mode
+	MODE_PAUSE
 };
 //Main class that coordinates the game operation
 class game
@@ -44,7 +45,7 @@ public:
 
 
 	window* CreateWind(int, int, int, int) const; //creates the game window
-
+	void reset();
 	void clearStatusBar() const;	//Clears the status bar
 	void setScore(int a);
 	int getScore() const;
@@ -56,7 +57,7 @@ public:
 	void printMessage(string msg) const;	//Print a message on Status bar
 	void status();
 	void go();
-
+	Ball* getBall() const;
 	window* getWind() const;		//returns a pointer to the graphics window
 
 
