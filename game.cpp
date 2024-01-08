@@ -9,7 +9,7 @@
 using namespace std;
 game::game()
 {
-	start = std::chrono::system_clock::now(); //put this in  the space bar condition
+	collectables = nullptr; 
 	//Initialize playgrond parameters
 	gameMode = MODE_DSIGN;
 	lives = 3;
@@ -79,6 +79,7 @@ clicktype game::getMouseClick(int& x, int& y) const
 {
 	return pWind->WaitMouseClick(x, y);	//Wait for mouse click
 }
+
 //////////////////////////////////////////////////////////////////////////////////////////
 window* game::CreateWind(int w, int h, int x, int y) const
 {
@@ -88,6 +89,31 @@ window* game::CreateWind(int w, int h, int x, int y) const
 	pW->DrawRectangle(0, 0, w, h);
 	return pW;
 }
+
+//void game::updateCollectables()
+//{
+//	for (int i=0;i<bricksGrid->getcount();i++)
+//	{
+//		// Update the collectable's position
+//		(collectables[i])->move();
+//
+//		// Check if the collectable is out of the screen
+//		if ((collectables[i])->getUpperLeftPoint().y > getWind()->GetHeight())
+//		{
+//			// If the collectable is out of the screen, delete it and remove from the vector
+//			delete (collectables[i]);
+//		}
+//		else if (ptrPaddle->collisionCheck(*collectables[i], *ptrPaddle))
+//		{
+//			// If there is a collision with the paddle
+//			collectables[i]->move();  // Perform actions when a collision with the paddle occurs
+//
+//			// Remove the collectable from the vector
+//			delete (collectables[i]);
+//		}
+//	}
+//}
+
 
 
 
@@ -140,7 +166,7 @@ void game::timer()
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 	// Calculate hours, minutes, and seconds
 	sec = (duration / 1000) % 60;
-	min = (duration / (1000 * 60)) % 60;
+ 	min = (duration / (1000 * 60)) % 60;
 	hr = duration / (1000 * 60 * 60);
 	if (sec == 60)
 	{
@@ -210,9 +236,6 @@ void game::status()
 	pWind->DrawString(config.windWidth - config.windWidth * 0.29, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, "Lives: ");
 	pWind->DrawInteger(config.windWidth - config.windWidth * 0.23, config.windHeight - config.statusBarHeight + config.windWidth * 0.008, lives);
 
-
-	//setScore(0);
-	//setLives(3);
 	timer();
 }
 
@@ -273,8 +296,12 @@ void game::go()
 	{
 		char cKeyData;
 		keytype  ktInput = pWind->GetKeyPress(cKeyData);
+		//printMessage("Enter the space bar to start the game");
 		if (ktInput == ASCII && cKeyData == ' ')
 		{
+			
+			//*collectables = new collectable [bricksGrid->COUNT()];
+			start = std::chrono::system_clock::now();
 			isSpacePressed = true;
 		}
 		
@@ -288,7 +315,6 @@ void game::go()
 		if (gameMode == MODE_DSIGN)		//Game is in the Desgin mode
 		{
 
-
 			printMessage("Ready...");
 			getMouseClick(x, y);	//Get the coordinates of the user click
 
@@ -300,7 +326,7 @@ void game::go()
 
 		}
 		else if (gameMode == MODE_PLAY && isSpacePressed) {
-
+			
 			if (getLives() <= 0) {
 
 				printMessage("Game Over! Final Score: " + to_string(getScore()));
@@ -316,6 +342,7 @@ void game::go()
 			ptrPaddle->MovePaddle();
 			bricksGrid->removeGrid();
 
+
 			pWind->GetMouseClick(x, y);
 			if (y >= 0 && y < config.toolBarHeight)
 			{
@@ -325,25 +352,29 @@ void game::go()
 			if (pBall->collisionCheck(*pBall, *ptrPaddle))
 				pBall->reflectOffPaddle(*ptrPaddle);
 
+			//updateCollectables();
+
 			for (int i = 0; i <= 10; i++) {
 				for (int j = 0; j < 20; j++) {
 					pBrick = bricksGrid->getBrick(i, j);
-					if (pBrick && collidable::collisionCheck(*pBall, *pBrick)) {
-						pBall->Reflect(*pBrick);
-						pBrick->decreaseStrength(*pBall); // Decrease the strength of the brick
-						if (pBrick->getStrength() == 0) {
-							if (pBrick->getType() == BRK_BMB)
-							{
-								bricksGrid->bmbDisappear(pBrick);
-								bricksGrid->disappear(pBrick);
+					if (pBrick ) {
+						if (collidable::collisionCheck(*pBall, *pBrick)) {
+							pBall->Reflect(*pBrick);
+							pBrick->decreaseStrength(*pBall); // Decrease the strength of the brick
+							if (pBrick->getStrength() == 0) {
+								if (pBrick->getType() == BRK_BMB)
+								{
+									bricksGrid->bmbDisappear(pBrick);
+									bricksGrid->disappear(pBrick);
+								}
+								else if (pBrick->getType() == BRK_SHK)
+								{
+									bricksGrid->shkDisappear(pBrick);
+									bricksGrid->disappear(pBrick);
+								}
+								else
+									bricksGrid->disappear(pBrick);
 							}
-							else if (pBrick->getType() == BRK_SHK)
-							{
-								bricksGrid->shkDisappear(pBrick);
-								bricksGrid->disappear(pBrick);
-							}
-							else
-								bricksGrid->disappear(pBrick);
 						}
 					}
 				}

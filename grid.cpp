@@ -233,6 +233,28 @@ int grid::addBrick(BrickType brkType, point clickedPoint)
 	return 1;
 }
 
+//int grid::COUNT()
+//{
+//	for (int i = 0; i < rows; i++) {
+//		for (int j = 0; j < cols; j++) {
+//			if (brickMatrix[i][j]->getType() ==BRK_PWR ) {
+//				count++;
+//			}
+//		}
+//	}
+//	return count;
+//}
+
+int grid::getcount()
+{
+	return count;
+}
+
+void grid::setCount(int a)
+{
+	count = a;
+}
+
 
 brick* grid::getBrick(int row, int column)
 {

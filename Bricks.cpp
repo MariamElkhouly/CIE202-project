@@ -1,6 +1,9 @@
+#pragma once
 #include "Bricks.h"
 #include "game.h"
-
+#include "PowerDownCollectable.h"
+#include "PowerUpCollectable.h"
+#include "drawable.h"
 ////////////////////////////////////////////////////  class brick  ///////////////////////////////////////
 brick::brick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 	collidable(r_uprleft, r_width, r_height, r_pGame)
@@ -170,6 +173,7 @@ BrickType rockBrick::getType() const
 {
 	return BRK_RCK;
 }
+
 ////////////////////////////////////////////////////  class powerBrick  /////////////////////////////////
 powerBrick::powerBrick(point r_uprleft, int r_width, int r_height, game* r_pGame) :
 	brick(r_uprleft, r_width, r_height, r_pGame)
@@ -179,7 +183,13 @@ powerBrick::powerBrick(point r_uprleft, int r_width, int r_height, game* r_pGame
 }
 void powerBrick::collisionAction()
 {
+
+if (getStrength() == 0) {
 }
+launchCollectible();
+}
+
+
 
 void powerBrick::decreaseStrength(Ball& a)
 {
@@ -189,4 +199,66 @@ void powerBrick::decreaseStrength(Ball& a)
 BrickType powerBrick::getType() const
 {
 	return BRK_PWR;
+}
+
+void powerBrick::launchCollectible()
+{
+	srand(time(0));
+
+	// Determine whether to launch a power-up or power-down
+	int randomUpAndDown = rand() % 2;
+
+	collectable* pCollectable=nullptr;
+
+	if (randomUpAndDown == 0) {
+		// Launch a PowerUp collectable
+		PowerUpType powerUpType = static_cast<PowerUpType>(rand() % 7);
+		switch (powerUpType) {
+		case PowerUpType::WGlide:
+			pCollectable = new WindGlide(uprLft,width,height,pGame);
+			break;
+		case PowerUpType::B:
+			pCollectable = new Bonus(uprLft, width, height, pGame);
+			break;
+		case PowerUpType::Double:
+			pCollectable = new DoubleScore(uprLft, width, height, pGame);
+			break;
+		case PowerUpType::Extra:
+			pCollectable = new ExtraLives(uprLft, width, height, pGame);
+			break;
+		case PowerUpType::Mgnt:
+			pCollectable = new Magnet(uprLft, width, height, pGame);
+			break;
+		case PowerUpType::Multi:
+			pCollectable = new MultibleBalls(uprLft, width, height, pGame);
+			break;
+		case PowerUpType::Wide:
+			pCollectable = new WidenPaddle(uprLft, width, height, pGame);
+			break;
+		}
+	}
+	else {
+		// Launch a PowerDown collectable
+		PowerDownType powerDownType = static_cast<PowerDownType>(rand() % 3);
+		switch (powerDownType) {
+		case PowerDownType::Narrow:
+			pCollectable = new NarrowPaddle(uprLft, width, height, pGame); 
+			break;
+		case PowerDownType::Reverse:
+			pCollectable = new ReverseDir(uprLft, width, height, pGame);
+			break;
+		case PowerDownType::Slow:
+			pCollectable = new SlowPaddle(uprLft, width, height, pGame);
+			break;
+		}
+		
+	}
+
+	// Set the vertical position randomly
+	int randomVerticalPosition = 30+rand() % (pGame->getWind()->GetHeight()-30 + 1);
+	pCollectable->setUpperLeftPoint(pCollectable->getUpperLeftPoint().x, randomVerticalPosition);
+
+	// Set the velocity to move vertically downwards
+	pCollectable->setVelocity(0, 5);
+
 }

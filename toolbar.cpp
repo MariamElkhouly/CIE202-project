@@ -6,7 +6,6 @@
 #include <iostream>
 #include <fstream>
 
-fstream file("file.txt", ios::out |ios::in);
 
 ////////////////////////////////////////////////////  class toolbarIcon   ////////////////////////////////////////////////////
 toolbarIcon::toolbarIcon(point r_uprleft, int r_width, int r_height, game* r_pGame):

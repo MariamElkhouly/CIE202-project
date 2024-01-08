@@ -3,7 +3,9 @@
 //This file contains all classes bricks classes 
 #include "collidable.h"
 #include "Ball.h"
-
+#include <cstdlib>
+#include <ctime>
+#include "collectable.h"
 enum BrickType	//add more brick types
 {
 	BRK_EAS,//Easy Brick
@@ -23,6 +25,7 @@ class brick :public collidable
 	int Strength; //the strength of the brick 1 to 4
 protected:
 	int upScore; //the increase in score for each brick
+
 public:
 	brick(point r_uprleft, int r_width, int r_height, game* r_pGame);
 	void SetStrength(int a); //reduces the strength of the bricks
@@ -100,5 +103,6 @@ public:
 	void collisionAction();
 	void decreaseStrength(Ball& a) override;
 	BrickType getType() const override;
+	void launchCollectible();
 };
 

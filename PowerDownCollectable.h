@@ -1,8 +1,11 @@
 #pragma once
-#pragma once
 #include "collectable.h"
 #include "Paddle.h"
+<<<<<<< HEAD
 #include"game.h"
+=======
+#include "game.h"
+>>>>>>> master
 enum PowerDownType {
 	Narrow,
 	Reverse,
@@ -17,6 +20,7 @@ public:
 	PowerDownCollectable(point ul, int w, int h, game* pG);
 	virtual ~PowerDownCollectable();
 	virtual PowerDownType getType() const = 0;
+
 };
 
 class NarrowPaddle :public PowerDownCollectable

@@ -8,7 +8,11 @@
 #include "CMUgraphicsLib/CMUgraphics.h" 
 PowerUpCollectable::PowerUpCollectable(point ul, int w, int h, game* pG) : collectable(ul, w, h, pG)
 {
+<<<<<<< HEAD
 
+=======
+	setType(Up);
+>>>>>>> master
 }
 
 PowerUpCollectable::~PowerUpCollectable()
@@ -43,6 +47,7 @@ PowerUpType WindGlide::getType() const
 {
 	return  WGlide;
 }
+
 
 ////////// Bonus class ////////////
 
@@ -214,3 +219,6 @@ PowerUpType MultibleBalls::getType() const
 {
 	return Multi;
 }
+
+
+
