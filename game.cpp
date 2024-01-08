@@ -332,6 +332,7 @@ void game::go()
 				for (int j = 0; j < 20; j++) {
 					pBrick = bricksGrid->getBrick(i, j);
 					if (pBrick && collidable::collisionCheck(*pBall, *pBrick)) {
+						pBall->clearScreen();
 						pBall->Reflect(*pBrick);
 						pBrick->decreaseStrength(*pBall); // Decrease the strength of the brick
 						if (pBrick->getStrength() == 0) {
