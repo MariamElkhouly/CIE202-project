@@ -12,7 +12,8 @@
 enum MODE	//Game mode
 {
 	MODE_DSIGN,	//Desing mode (startup mode)
-	MODE_PLAY	//Playing mode
+	MODE_PLAY,	//Playing mode
+	MODE_PAUSE
 };
 //Main class that coordinates the game operation
 class game

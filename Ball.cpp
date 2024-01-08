@@ -7,6 +7,7 @@ Ball::Ball(point center, int r_diameter, game* r_pGame) :
     setImageName("images\\Circle.jpg");
     vel.x = 0;
     vel.y = 0;
+    strength = 1;
 }
 
 void Ball::clearScreen() const {
@@ -86,12 +87,23 @@ void Ball::collisionAction()
 {
 }
 
+
 void Ball::eraseball()
 {
     window* pw = this->pGame->getWind();
     pw->SetBrush(LAVENDER);
     pw->SetPen(LAVENDER);
     pw->DrawRectangle(0, uprLft.y, 1200, uprLft.y + height, FILLED);
+
+void Ball::setStrength(int s)
+{
+    strength = s;
+}
+
+int Ball::getStrength()
+{
+    return strength;
+
 }
 
 

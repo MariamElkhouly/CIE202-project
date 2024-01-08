@@ -4,6 +4,8 @@
 point collidable::minDistance(collidable& a, collidable& b)
 {
 	point Dist;
+	if (!a || !b)
+		return NO;
 
 	if (a.uprLft.x < b.uprLft.x) {
 		Dist.x = a.width;

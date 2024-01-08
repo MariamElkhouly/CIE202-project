@@ -9,6 +9,7 @@ class Ball :
 private:
     image background;
     float diameter;
+    int strength;
     bool collidedWithPaddle = false;
     void checkEdges();
 
@@ -23,6 +24,9 @@ public:
     void draw() const override;
     void clearScreen() const;
     void collisionAction();
-    void eraseball();
-};
 
+    void eraseball();
+    void setStrength(int s);
+    int getStrength();
+
+};

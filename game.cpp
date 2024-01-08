@@ -353,6 +353,7 @@ void game::go()
 			if (y >= 0 && y < config.toolBarHeight)
 			{
 				isExit = gameToolbar->handleClick(x, y);
+				cout << isExit << endl;
 			}
 
 			if (y >= 0 && y < config.toolBarHeight) {
@@ -392,10 +393,13 @@ void game::handleBrickCollision()
 			currentBrick = bricksGrid->getBrick(i, j);
 			if ( currentBrick && collidable::collisionCheck(*pBall, *currentBrick) ) {
 				pBall->clearScreen();
+				cout << pBall->collisionDir(*currentBrick) << endl;
 				pBall->Reflect(*currentBrick);
-				currentBrick->draw();
-				if (currentBrick->getStrength() == 0)
+				currentBrick->collisionAction();
+				currentBrick->decreaseStrength(*pBall);
+				if (currentBrick->getStrength() <= 0) {
 					bricksGrid->disappear(currentBrick);
+				}
 			}
 		}
 	}
