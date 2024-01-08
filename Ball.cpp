@@ -73,7 +73,6 @@ void Ball::setPosition(float x, float y)
 
 void Ball::reflectOffPaddle(Paddle& paddle)
 {
-
     int speed = 10;
     int distFromCenter = abs(this->getCenter().x - paddle.getCenter().x);
     double ratio = 45.0 / (double(config.paddlew) / 10); //get the width to angle ratio

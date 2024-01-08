@@ -362,6 +362,7 @@ void game::go()
 					pBrick = bricksGrid->getBrick(i, j);
 					if (pBrick ) {
 						if (collidable::collisionCheck(*pBall, *pBrick)) {
+							pBall->clearScreen();
 							pBall->Reflect(*pBrick);
 							pBrick->decreaseStrength(*pBall); // Decrease the strength of the brick
 							if (pBrick->getStrength() <= 0) {
@@ -413,19 +414,19 @@ void game::go()
 
 			}
 
-			
-		}
-		else if (gameMode == MODE_PAUSE) {
-			pWind->GetMouseClick(x, y);
-			if (y >= 0 && y < config.toolBarHeight)
-			{
-				isExit = gameToolbar->handleClick(x, y);
+			else if (gameMode == MODE_PAUSE) {
+				pWind->GetMouseClick(x, y);
+				if (y >= 0 && y < config.toolBarHeight)
+				{
+					isExit = gameToolbar->handleClick(x, y);
+				}
 			}
-		}
+			
+		} while (!isExit);
 
 		
 
-	} while (!isExit);
+	
 }
 Ball* game::getBall() const
 {

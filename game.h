@@ -6,6 +6,7 @@
 #include <string>
 #include "Ball.h"
 #include "Paddle.h"
+#include "collectable.h"
 #include <vector>
 #include <iostream>
 
